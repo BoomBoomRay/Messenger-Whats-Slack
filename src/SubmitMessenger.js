@@ -1,0 +1,40 @@
+import React, { useState } from 'react';
+import firebase from 'firebase/app';
+import SendIcon from '@material-ui/icons/Send';
+import { db } from './firebase';
+
+export default function SubmitMessenger({ userInfo, userFromDb, uploadImage }) {
+  const [input, setInput] = useState('');
+  const handleMessage = (e) => {
+    e.preventDefault();
+    setInput(e.target.value);
+  };
+
+  const submitMessage = (e) => {
+    e.preventDefault();
+
+    db.collection('messages').add({
+      timestamp: firebase.firestore.Timestamp.now(),
+      content: input,
+      edit: false,
+      email: userInfo.email,
+      uploadImage: uploadImage,
+    });
+    setInput('');
+  };
+  return (
+    <div>
+      <div className='input-container'>
+        <input
+          className='input-message'
+          value={input}
+          onChange={handleMessage}
+          placeholder='Type Message'
+        ></input>
+        <button className='send-button' onClick={submitMessage}>
+          <SendIcon />
+        </button>
+      </div>
+    </div>
+  );
+}
