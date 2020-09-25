@@ -1,0 +1,13 @@
+.leftNavContainer {
+  border: 2px solid red;
+}
+.leftNavContainer {
+  border: 2px solid lightgray;
+  max-width: 400px;
+  min-width: 400px;
+  max-height: 400px;
+  min-height: 650px;
+  border-radius: 4px;
+  margin-top: -3px;
+  box-shadow: 1px 3px 10px -1px #aaaaaa;
+}

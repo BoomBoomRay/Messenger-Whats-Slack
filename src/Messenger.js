@@ -1,13 +1,15 @@
 import Messages from './Messages';
 import React, { useState, useEffect, useCallback } from 'react';
 import { db, storage } from './firebase';
-import { useHistory } from 'react-router-dom';
 import SubmitMessenger from './SubmitMessenger';
+import RightNavigation from './RightNavigation';
+import LeftNavigation from './LeftNavigation';
+import firebase from 'firebase/app';
 
-export default function Messenger({ messages, userInfo, logout, usersArray }) {
+export default function Messenger({ userInfo, logout, usersArray }) {
   const [uploadImage, setuploadImage] = useState(null);
   const [userFromDb, setuserFromDb] = useState(null);
-  const history = useHistory();
+  const [messages, setMessage] = useState([]);
 
   const renderImgfromDB = useCallback(
     (string) => {
@@ -43,6 +45,12 @@ export default function Messenger({ messages, userInfo, logout, usersArray }) {
             'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png'
           );
         }
+
+        db.collection('messages')
+          .orderBy('timestamp', 'desc')
+          .onSnapshot((res) => {
+            setMessage(res.docs.map((doc) => doc.data()));
+          });
         db.collection('messages')
           .where('email', '==', userInfo.email)
           .get()
@@ -62,17 +70,15 @@ export default function Messenger({ messages, userInfo, logout, usersArray }) {
     };
   }, [uploadImage, renderImgfromDB, userInfo.email]);
 
-  const goToProfile = () => {
-    history.push('/profile');
-  };
   return (
     <>
-      <button onClick={goToProfile}>Profile</button>
+      <LeftNavigation />
       <div className='messengerContainer'>
         <form>
           <div className='title-container'>
             <h1>Messenger</h1>
           </div>
+
           <Messages
             userInfo={userInfo}
             uploadImage={uploadImage}
@@ -86,6 +92,7 @@ export default function Messenger({ messages, userInfo, logout, usersArray }) {
           />
         </form>
       </div>
+      <RightNavigation />
     </>
   );
 }
