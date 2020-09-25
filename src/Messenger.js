@@ -6,10 +6,9 @@ import RightNavigation from './RightNavigation';
 import LeftNavigation from './LeftNavigation';
 import firebase from 'firebase/app';
 
-export default function Messenger({ userInfo, logout, usersArray }) {
+export default function Messenger({ userInfo, logout, messages, usersArray }) {
   const [uploadImage, setuploadImage] = useState(null);
   const [userFromDb, setuserFromDb] = useState(null);
-  const [messages, setMessage] = useState([]);
 
   const renderImgfromDB = useCallback(
     (string) => {
@@ -46,11 +45,6 @@ export default function Messenger({ userInfo, logout, usersArray }) {
           );
         }
 
-        db.collection('messages')
-          .orderBy('timestamp', 'desc')
-          .onSnapshot((res) => {
-            setMessage(res.docs.map((doc) => doc.data()));
-          });
         db.collection('messages')
           .where('email', '==', userInfo.email)
           .get()
