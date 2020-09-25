@@ -2,12 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { auth, db } from './firebase';
 import Messenger from './Messenger';
 import './App.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory,
-} from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import LoginComponent from './LoginComponent';
 import firebase from 'firebase/app';
 import Mprofile from './Mprofile';
@@ -66,6 +61,7 @@ function App() {
     try {
       let data = await auth.createUserWithEmailAndPassword(userName, passWord);
       if (data) {
+        setuser(data.user);
         setuserName('');
         setPassword('');
         setRegistering(false);

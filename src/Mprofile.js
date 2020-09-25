@@ -48,16 +48,16 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
             'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png'
           );
         }
-        db.collection('messages')
-          .where('email', '==', userInfo.email)
-          .get()
-          .then((data) => {
-            const user = data.docs.map((doc) => doc.data().user);
-            setuserFromDb(user[0]);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        // db.collection('messages')
+        //   .where('email', '==', userInfo.email)
+        //   .get()
+        //   .then((data) => {
+        //     const user = data.docs.map((doc) => doc.data().user);
+        //     setuserFromDb(user[0]);
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //   });
       }
     };
     loadData();

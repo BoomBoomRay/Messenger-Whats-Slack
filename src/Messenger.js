@@ -1,7 +1,6 @@
 import Messages from './Messages';
 import React, { useState, useEffect, useCallback } from 'react';
 import { db, storage } from './firebase';
-import Mprofile from './Mprofile';
 import { useHistory } from 'react-router-dom';
 import SubmitMessenger from './SubmitMessenger';
 
