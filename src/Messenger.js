@@ -14,7 +14,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
   const [chanels, setChannels] = useState(null);
   const [messages, setMessage] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState(null);
-  const [{ user }, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
 
   const renderImgfromDB = useCallback(
     (string) => {
@@ -96,6 +96,10 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     setInputNameForChannel(e.target.value);
   };
   const changeChannel = (ind) => {
+    dispatch({
+      type: 'SUBMIT_MESSAGE',
+      sentMessage: false,
+    });
     const selectedChnlString = chanels && chanels[ind].channelName;
     setSelectedChannel(selectedChnlString);
     dispatch({

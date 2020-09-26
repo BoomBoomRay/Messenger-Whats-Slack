@@ -3,6 +3,7 @@ import './App.css';
 import { db } from './firebase';
 import PropagateLoader from 'react-spinners/PropagateLoader';
 import { css } from '@emotion/core';
+import { useStateValue } from './StateProvider';
 
 const override = css`
   display: block;
@@ -14,16 +15,18 @@ export default function Messages({ messages, usersArray, uploadImage }) {
   const messagesEndRef = useRef(null);
   const sortedMessages = messages.sort((a, b) => a.timestamp - b.timestamp);
   const [loading, setLoading] = useState(false);
+  const [{ sentMessage }] = useStateValue();
+
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(sentMessage ? false : true);
     setTimeout(() => {
       setLoading(false);
       scrollToBottom();
-    }, 1500);
+    }, 500);
   }, [messages]);
 
   const imgError = (e) => {
@@ -68,7 +71,6 @@ export default function Messages({ messages, usersArray, uploadImage }) {
       </>
     );
   };
-
   return (
     <div className='messengerContainerList'>
       {loading ? (

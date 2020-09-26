@@ -1,5 +1,6 @@
 export const initialState = {
   user: [],
+  sentMessage: false,
 };
 
 const reducer = (state, action) => {
@@ -9,7 +10,11 @@ const reducer = (state, action) => {
         ...state,
         user: action.user,
       };
-
+    case 'SUBMIT_MESSAGE':
+      return {
+        ...state,
+        sentMessage: action.sentMessage,
+      };
     default:
       return state;
   }

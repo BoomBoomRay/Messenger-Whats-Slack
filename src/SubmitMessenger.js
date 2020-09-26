@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import firebase from 'firebase/app';
 import SendIcon from '@material-ui/icons/Send';
 import { db } from './firebase';
-
+import { useStateValue } from './StateProvider';
 export default function SubmitMessenger({
   userInfo,
   channels,
@@ -12,6 +12,7 @@ export default function SubmitMessenger({
   selectedChannel,
 }) {
   const [input, setInput] = useState('');
+  const [{ sentMessage }, dispatch] = useStateValue();
   const docName = selectedChannel ? selectedChannel : 'mainChannel';
 
   const handleMessage = (e) => {
@@ -27,6 +28,10 @@ export default function SubmitMessenger({
       edit: false,
       email: userInfo.email,
       uploadImage: uploadImage,
+    });
+    dispatch({
+      type: 'SUBMIT_MESSAGE',
+      sentMessage: true,
     });
 
     setInput('');

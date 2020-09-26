@@ -1,6 +1,6 @@
 import React from 'react';
 import './LeftNav.css';
-import Channel from './Channel';
+import Modal from './PopUpModal';
 
 export default function LeftNavigation({
   channels,
@@ -25,8 +25,10 @@ export default function LeftNavigation({
         <div className='channel'>
           <h1>Channel</h1>
           {renderChannels()}
-          <input onChange={inputNewChannel}></input>
-          <button onClick={createNewChannel}>Add Channell</button>
+          <Modal
+            inputNewChannel={inputNewChannel}
+            createNewChannel={createNewChannel}
+          />
         </div>
       </div>
       <div className='directMessage__div'>
