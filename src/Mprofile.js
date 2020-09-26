@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { db, storage } from './firebase';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import { useHistory } from 'react-router-dom';
+import { useStateValue } from './StateProvider';
 
 export default function Mprofile({ userInfo, messages, logout, usersArray }) {
   const [userHandle, setuserHandle] = useState('');
@@ -12,6 +13,7 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
   const [uploadImage, setuploadImage] = useState(null);
   const [progress, setProgress] = useState(0);
   const history = useHistory();
+  const [{ user }] = useStateValue();
 
   const renderImgfromDB = useCallback(
     (string) => {
@@ -123,7 +125,7 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
     );
   };
   const saveNewImgtoDb = (url) => {
-    db.collection('messages')
+    db.collection('users')
       .where('email', '==', userInfo.email)
       .get()
       .then((data) => {
@@ -165,6 +167,7 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
   const backToMessenger = () => {
     history.replace('/messenger');
   };
+  console.log('USER', user);
   return (
     <div className='profile-container'>
       <div className='title-container-profile'>

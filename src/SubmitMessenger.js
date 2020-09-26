@@ -3,8 +3,17 @@ import firebase from 'firebase/app';
 import SendIcon from '@material-ui/icons/Send';
 import { db } from './firebase';
 
-export default function SubmitMessenger({ userInfo, userFromDb, uploadImage }) {
+export default function SubmitMessenger({
+  userInfo,
+  channels,
+  userFromDb,
+  uploadImage,
+  inputNameChannel,
+  selectedChannel,
+}) {
   const [input, setInput] = useState('');
+  const docName = selectedChannel ? selectedChannel : 'mainChannel';
+
   const handleMessage = (e) => {
     e.preventDefault();
     setInput(e.target.value);
@@ -12,14 +21,14 @@ export default function SubmitMessenger({ userInfo, userFromDb, uploadImage }) {
 
   const submitMessage = (e) => {
     e.preventDefault();
-
-    db.collection('messages').add({
+    db.collection('channels').doc(docName).collection('messages').add({
       timestamp: firebase.firestore.Timestamp.now(),
       content: input,
       edit: false,
       email: userInfo.email,
       uploadImage: uploadImage,
     });
+
     setInput('');
   };
   return (

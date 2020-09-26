@@ -30,11 +30,18 @@ function App() {
         setuser(null);
       }
     });
-    db.collection('messages')
-      .orderBy('timestamp', 'desc')
-      .onSnapshot((res) => {
-        setMessage(res.docs.map((doc) => doc.data()));
-      });
+    // db.collection('channels')
+    //   .doc('Channel1')
+    //   .collection('messages')
+    //   .orderBy('timestamp', 'desc')
+    //   .onSnapshot((res) => {
+    //     setMessage(res.docs.map((doc) => doc.data()));
+    //   });
+    // db.collection('messages')
+    //   .orderBy('timestamp', 'desc')
+    //   .onSnapshot((res) => {
+    //     setMessage(res.docs.map((doc) => doc.data()));
+    //   });
     db.collection('users').onSnapshot((res) => {
       setUserArray(res.docs.map((doc) => doc.data()));
     });
@@ -69,6 +76,7 @@ function App() {
           timestamp: firebase.firestore.Timestamp.now(),
           email: userName,
           user: userName,
+          uploadImage: '',
         });
         history.push('/messenger');
       } else {

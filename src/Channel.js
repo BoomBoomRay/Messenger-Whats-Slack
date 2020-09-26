@@ -8,6 +8,7 @@ export default function Channel({
   changeChannel,
   addChannel,
   inputNewChannel,
+  createNewChannel,
 }) {
   const [channelInput, setChannelInput] = useState(null);
 
@@ -25,7 +26,7 @@ export default function Channel({
       <h1>Channel</h1>
       {renderChannels()}
       <input onChange={inputNewChannel}></input>
-      <button onClick={addChannel}>Add Channell</button>
+      <button onClick={createNewChannel}>Add Channell</button>
     </div>
   );
 }

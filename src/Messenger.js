@@ -5,10 +5,16 @@ import SubmitMessenger from './SubmitMessenger';
 import RightNavigation from './RightNavigation';
 import LeftNavigation from './LeftNavigation';
 import firebase from 'firebase/app';
+import { useStateValue } from './StateProvider';
 
-export default function Messenger({ userInfo, logout, messages, usersArray }) {
+export default function Messenger({ userInfo, logout, usersArray }) {
   const [uploadImage, setuploadImage] = useState(null);
   const [userFromDb, setuserFromDb] = useState(null);
+  const [inputNameChannel, setInputNameForChannel] = useState(null);
+  const [chanels, setChannels] = useState(null);
+  const [messages, setMessage] = useState([]);
+  const [selectedChannel, setSelectedChannel] = useState(null);
+  const [{ user }, dispatch] = useStateValue();
 
   const renderImgfromDB = useCallback(
     (string) => {
@@ -44,7 +50,20 @@ export default function Messenger({ userInfo, logout, messages, usersArray }) {
             'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png'
           );
         }
-
+        dispatch({
+          type: 'SELECT_CHANNEL',
+          user: 'mainChannel',
+        });
+        db.collection('channels')
+          .doc('mainChannel')
+          .collection('messages')
+          .orderBy('timestamp', 'desc')
+          .onSnapshot((res) => {
+            setMessage(res.docs.map((doc) => doc.data()));
+          });
+        db.collection('channels').onSnapshot((res) => {
+          setChannels(res.docs.map((d) => d.data()));
+        });
         db.collection('messages')
           .where('email', '==', userInfo.email)
           .get()
@@ -64,13 +83,45 @@ export default function Messenger({ userInfo, logout, messages, usersArray }) {
     };
   }, [uploadImage, renderImgfromDB, userInfo.email]);
 
+  const createNewChannel = (e) => {
+    e.preventDefault();
+    console.log('fire');
+
+    db.collection('channels').doc(inputNameChannel).set({
+      timestamp: firebase.firestore.Timestamp.now(),
+      channelName: inputNameChannel,
+    });
+  };
+  const inputNewChannel = (e) => {
+    setInputNameForChannel(e.target.value);
+  };
+  const changeChannel = (ind) => {
+    const selectedChnlString = chanels && chanels[ind].channelName;
+    setSelectedChannel(selectedChnlString);
+    dispatch({
+      type: 'SELECT_CHANNEL',
+      user: selectedChnlString,
+    });
+    db.collection('channels')
+      .doc(selectedChnlString)
+      .collection('messages')
+      .orderBy('timestamp', 'desc')
+      .onSnapshot((res) => {
+        setMessage(res.docs.map((doc) => doc.data()));
+      });
+  };
   return (
     <>
-      <LeftNavigation />
+      <LeftNavigation
+        inputNewChannel={inputNewChannel}
+        createNewChannel={createNewChannel}
+        changeChannel={changeChannel}
+        channels={chanels}
+      />
       <div className='messengerContainer'>
         <form>
           <div className='title-container'>
-            <h1>Messenger</h1>
+            <h1>Room: #{selectedChannel ? selectedChannel : 'MainChannel'}</h1>
           </div>
 
           <Messages
@@ -80,9 +131,12 @@ export default function Messenger({ userInfo, logout, messages, usersArray }) {
             usersArray={usersArray}
           />
           <SubmitMessenger
+            inputNameChannel={inputNameChannel}
+            channels={chanels}
             userInfo={userInfo}
             userFromDb={userFromDb}
             uploadImage={uploadImage}
+            selectedChannel={selectedChannel}
           />
         </form>
       </div>

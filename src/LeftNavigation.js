@@ -7,17 +7,27 @@ export default function LeftNavigation({
   changeChannel,
   addChannel,
   inputNewChannel,
+  createNewChannel,
 }) {
+  const renderChannels = () => {
+    return channels?.map((i, ind) => (
+      <ul key={ind}>
+        <button onClick={() => changeChannel(ind)}>
+          <li>{i.channelName}</li>
+        </button>
+      </ul>
+    ));
+  };
   return (
     <div className='leftNavContainer'>
       <h1>Chat Messenger</h1>
       <div className='channel__div'>
-        <Channel
-          channels={channels}
-          changeChannel={changeChannel}
-          addChannel={addChannel}
-          inputNewChannel={inputNewChannel}
-        />
+        <div className='channel'>
+          <h1>Channel</h1>
+          {renderChannels()}
+          <input onChange={inputNewChannel}></input>
+          <button onClick={createNewChannel}>Add Channell</button>
+        </div>
       </div>
       <div className='directMessage__div'>
         <h1>Direct Message</h1>
