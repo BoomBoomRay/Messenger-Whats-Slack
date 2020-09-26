@@ -224,6 +224,9 @@ body {
   font-size: 9px;
   cursor: pointer;
 }
+.message_loader {
+  color: red;
+}
 /* Animation loader */
 #loader-3:before,
 #loader-3:after {
