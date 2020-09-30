@@ -10,7 +10,7 @@ import { useStateValue } from './StateProvider';
 export default function Messenger({ userInfo, logout, usersArray }) {
   const [uploadImage, setuploadImage] = useState(null);
   const [userFromDb, setuserFromDb] = useState(null);
-  const [inputNameChannel, setInputNameForChannel] = useState(null);
+  // const [inputNameChannel, setInputNameForChannel] = useState(null);
   const [chanels, setChannels] = useState(null);
   const [messages, setMessage] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState(null);
@@ -55,15 +55,17 @@ export default function Messenger({ userInfo, logout, usersArray }) {
           user: 'mainChannel',
         });
         db.collection('channels')
-          .doc('mainChannel')
+          .doc('Beaver')
           .collection('messages')
           .orderBy('timestamp', 'desc')
           .onSnapshot((res) => {
             setMessage(res.docs.map((doc) => doc.data()));
           });
-        db.collection('channels').onSnapshot((res) => {
-          setChannels(res.docs.map((d) => d.data()));
-        });
+        db.collection('channels')
+          .orderBy('timestamp', 'desc')
+          .onSnapshot((res) => {
+            setChannels(res.docs.map((d) => d.data()));
+          });
         db.collection('messages')
           .where('email', '==', userInfo.email)
           .get()
@@ -83,18 +85,6 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     };
   }, [uploadImage, renderImgfromDB, userInfo.email]);
 
-  const createNewChannel = (e) => {
-    e.preventDefault();
-    console.log('fire');
-
-    db.collection('channels').doc(inputNameChannel).set({
-      timestamp: firebase.firestore.Timestamp.now(),
-      channelName: inputNameChannel,
-    });
-  };
-  const inputNewChannel = (e) => {
-    setInputNameForChannel(e.target.value);
-  };
   const changeChannel = (ind) => {
     dispatch({
       type: 'SUBMIT_MESSAGE',
@@ -116,12 +106,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
   };
   return (
     <>
-      <LeftNavigation
-        inputNewChannel={inputNewChannel}
-        createNewChannel={createNewChannel}
-        changeChannel={changeChannel}
-        channels={chanels}
-      />
+      <LeftNavigation changeChannel={changeChannel} channels={chanels} />
       <div className='messengerContainer'>
         <form>
           <div className='title-container'>
@@ -135,7 +120,6 @@ export default function Messenger({ userInfo, logout, usersArray }) {
             usersArray={usersArray}
           />
           <SubmitMessenger
-            inputNameChannel={inputNameChannel}
             channels={chanels}
             userInfo={userInfo}
             userFromDb={userFromDb}

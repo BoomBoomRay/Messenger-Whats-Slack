@@ -1,8 +1,5 @@
 .leftNavContainer {
-  border: 2px solid red;
-}
-.leftNavContainer {
-  border: 2px solid lightgray;
+  border: 2px solid #3f51b5;
   max-width: 400px;
   min-width: 400px;
   max-height: 400px;
@@ -10,4 +7,64 @@
   border-radius: 4px;
   margin-top: -3px;
   box-shadow: 1px 3px 10px -1px #aaaaaa;
+  background-color: #3f51b5;
+}
+.channel__div {
+  overflow: scroll;
+  max-height: 35%;
+  padding-left: 25px;
+  padding-right: 25px;
+  transition: height 2s;
+}
+.channel__div ul {
+  list-style: none;
+  text-align: left;
+}
+.channel__div__transition-enter,
+.channel__div__transition-appear {
+  max-height: 0%;
+}
+.channel__div__transition-enter-active,
+.channel__div__transition-appear-active {
+  max-height: 35%;
+  transition: all 0.5s ease;
+}
+.channel__div__transition-exit {
+  height: 35%;
+}
+.channel__div__transition-exit-active {
+  height: 0%;
+  transition: all 0.3s ease;
+}
+.channel__div button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  margin-right: 10px;
+  color: white;
+  font-weight: 500;
+}
+.channel__div li {
+  font-weight: 600;
+}
+.channel__div li:hover {
+  font-weight: 740;
+  transition: font-weight 0.3s ease-in-out;
+}
+.directMessage__div h2 {
+  color: white;
+}
+.directMessage__div {
+  display: flex;
+  justify-content: flex-start;
+}
+.channels__container {
+  display: flex;
+}
+.channel__div ul {
+  color: red;
 }

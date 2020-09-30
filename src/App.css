@@ -89,6 +89,8 @@ body {
   font: inherit;
   cursor: pointer;
   outline: inherit;
+  margin-right: 10px;
+  color: #aaaaaa;
 }
 .input-container {
   background-color: #f2f2f2;
@@ -105,10 +107,6 @@ body {
   font: inherit;
   outline: inherit;
   width: 100%;
-}
-.send-button {
-  margin-right: 10px;
-  color: #aaaaaa;
 }
 
 .profile-container {
@@ -193,6 +191,16 @@ body {
 .message-content-div {
   width: 100%;
   margin-top: 6px;
+  position: relative;
+  padding-bottom: 10px;
+}
+.message-content-div p {
+  margin: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: x-small;
+  margin-top: 15px;
 }
 .img-profile-div {
   border-bottom: 1px solid rgb(170, 170, 170);

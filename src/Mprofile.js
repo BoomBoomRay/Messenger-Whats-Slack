@@ -167,7 +167,6 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
   const backToMessenger = () => {
     history.replace('/messenger');
   };
-  console.log('USER', user);
   return (
     <div className='profile-container'>
       <div className='title-container-profile'>

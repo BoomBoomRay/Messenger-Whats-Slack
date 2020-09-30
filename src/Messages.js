@@ -4,6 +4,7 @@ import { db } from './firebase';
 import PropagateLoader from 'react-spinners/PropagateLoader';
 import { css } from '@emotion/core';
 import { useStateValue } from './StateProvider';
+import moment from 'moment';
 
 const override = css`
   display: block;
@@ -33,11 +34,21 @@ export default function Messages({ messages, usersArray, uploadImage }) {
     e.target.src =
       'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png';
   };
+
+  const renderDate = () => {
+    const firstDate = sortedMessages[0].timestamp.seconds;
+    sortedMessages.filter((i, ind) => i.timestamp.seconds - firstDate > 86400);
+  };
   const renderMessages = () => {
     return (
       <>
         {sortedMessages.map((message, i) => (
           <div key={message.timestamp} className='message-container'>
+            {/* <p>
+              {moment
+                .unix(message?.timestamp.seconds)
+                .format('MMMM Do YYYY, h:mma')}
+            </p> */}
             <div className='message-profile-div'>
               {usersArray
                 .filter((i) => i.email === message.email)
@@ -64,6 +75,7 @@ export default function Messages({ messages, usersArray, uploadImage }) {
               </div>
               <div className='message-content-div'>
                 <span className='message-content'>{message.content}</span>
+                <p>{moment.unix(message.timestamp.seconds).format('h:mma')}</p>
               </div>
             </div>
           </div>
@@ -71,6 +83,7 @@ export default function Messages({ messages, usersArray, uploadImage }) {
       </>
     );
   };
+  console.log('Messages', messages);
   return (
     <div className='messengerContainerList'>
       {loading ? (

@@ -154,7 +154,7 @@ function App() {
       </div>
     );
   };
-
+  console.log('USER', user);
   return (
     <Switch>
       <>
