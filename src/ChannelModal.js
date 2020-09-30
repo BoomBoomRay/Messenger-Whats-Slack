@@ -32,6 +32,7 @@ export default function PopUpModal({ toggleDropdownChannel, open }) {
     db.collection('channels').doc(inputNameChannel).set({
       timestamp: firebase.firestore.Timestamp.now(),
       channelName: inputNameChannel,
+      channel: true,
     });
     handleCloseModal();
   };

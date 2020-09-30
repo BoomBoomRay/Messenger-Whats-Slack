@@ -23,7 +23,7 @@ const customStyles = {
 };
 
 Modal.setAppElement('body');
-export default function PopUpModal({ toggleDropdownDM, openDm }) {
+export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
   const [showModal, setShowModal] = useState(false);
   const [usersOnline, setUsersOnline] = useState([]);
   const [, dispatch] = useStateValue();
@@ -45,14 +45,16 @@ export default function PopUpModal({ toggleDropdownDM, openDm }) {
     createNewDm(email);
   };
   const createNewDm = (email) => {
-    db.collection('channels').doc(email).set({
+    db.collection('channels').doc(userInfo.email).set({
       timestamp: firebase.firestore.Timestamp.now(),
-      user: email,
+      dmRecipient: email,
+      user: userInfo.email,
       directMessage: true,
     });
   };
   const renderUsers = () => {
-    return usersOnline?.map((i, _) => {
+    const filteredUsers = usersOnline.filter((i) => i.email !== userInfo.email);
+    return filteredUsers?.map((i, _) => {
       return (
         <ul key={_}>
           <button onClick={() => selectedUser(i.email)}>

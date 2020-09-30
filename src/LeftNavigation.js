@@ -6,7 +6,12 @@ import DMModal from './DirectMsgModal';
 import { CSSTransition } from 'react-transition-group';
 import { useStateValue } from './StateProvider';
 
-export default function LeftNavigation({ channels, changeChannel, selectDM }) {
+export default function LeftNavigation({
+  userInfo,
+  channels,
+  changeChannel,
+  selectDM,
+}) {
   const [open, setOpen] = useState(false);
   const [openDm, setOpenDm] = useState(false);
   const [directMessages, setDirectMessages] = useState([]);
@@ -21,7 +26,8 @@ export default function LeftNavigation({ channels, changeChannel, selectDM }) {
   }, []);
 
   const renderChannels = () => {
-    return channels?.map((i, ind) => (
+    const sortedChannels = channels?.sort((a, b) => a.timestamp - b.timestamp);
+    return sortedChannels?.map((i, ind) => (
       <ul key={ind}>
         <button onClick={() => changeChannel(ind)}>
           <li>#{i.channelName}</li>
@@ -34,11 +40,22 @@ export default function LeftNavigation({ channels, changeChannel, selectDM }) {
   };
 
   const renderDms = () => {
-    return directMessages?.map((i, _) => {
+    const loggedInUserDm = directMessages.filter(
+      (i) => i.user || i.dmRecipient === userInfo.email
+    );
+    return loggedInUserDm?.map((i, _) => {
       return (
         <ul key={_}>
           <button onClick={() => selectDM(i.user)}>
-            <li>{i.user}</li>
+            <li>
+              {userInfo.email === i.dmRecipient
+                ? i.user
+                : userInfo.email === i.user
+                ? i.dmRecipient
+                : i.user && i.dmRecipient !== userInfo.email
+                ? null
+                : null}
+            </li>
           </button>
         </ul>
       );
@@ -47,6 +64,7 @@ export default function LeftNavigation({ channels, changeChannel, selectDM }) {
   const toggleDropdownDM = (e) => {
     setOpenDm(!openDm);
   };
+  console.log(userInfo);
   return (
     <div className='leftNavContainer'>
       <h1>Chat Messenger</h1>
@@ -59,7 +77,11 @@ export default function LeftNavigation({ channels, changeChannel, selectDM }) {
       >
         <div className='channel__div'>{open && renderChannels()}</div>
       </CSSTransition>
-      <DMModal openDm={openDm} toggleDropdownDM={toggleDropdownDM} />
+      <DMModal
+        userInfo={userInfo}
+        openDm={openDm}
+        toggleDropdownDM={toggleDropdownDM}
+      />
       <CSSTransition
         in={openDm}
         unmountOnExit

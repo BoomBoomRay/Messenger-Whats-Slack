@@ -62,7 +62,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
             setMessage(res.docs.map((doc) => doc.data()));
           });
         db.collection('channels')
-          .orderBy('timestamp', 'desc')
+          .where('channel', '==', true)
           .onSnapshot((res) => {
             setChannels(res.docs.map((d) => d.data()));
           });
@@ -117,6 +117,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
   return (
     <>
       <LeftNavigation
+        userInfo={userInfo}
         selectDM={selectDM}
         changeChannel={changeChannel}
         channels={chanels}
