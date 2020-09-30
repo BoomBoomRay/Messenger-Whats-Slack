@@ -172,7 +172,7 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
       <div className='title-container-profile'>
         <h1>Profile</h1>
       </div>
-      <button onClick={backToMessenger}>back</button>
+      {/* <button onClick={backToMessenger}>back</button> */}
       <div>
         <div className='img-profile-div'>
           <div className='img-profile-container'>

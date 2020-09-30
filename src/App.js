@@ -78,7 +78,7 @@ function App() {
           user: userName,
           uploadImage: '',
         });
-        history.push('/messenger');
+        // history.push('/messenger');
       } else {
         history.push('/');
       }
@@ -98,11 +98,11 @@ function App() {
       setemailVerification(false);
       setuserName('');
       setPassword('');
-      if (response) {
-        history.push('/messenger');
-      } else {
-        history.push('/');
-      }
+      // if (response) {
+      //   history.push('/messenger');
+      // } else {
+      //   history.push('/');
+      // }
     } catch (error) {
       setLoading(false);
       seterrorMessage(error.message);
@@ -127,7 +127,7 @@ function App() {
     setLoggingoutLoading(true);
     setTimeout(() => {
       setuser(null);
-      history.push('/');
+      // history.push('/');
       auth
         .signOut()
         .catch((error) => {
@@ -154,62 +154,53 @@ function App() {
       </div>
     );
   };
-  console.log('USER', user);
   return (
-    <Switch>
-      <>
-        <div className='App'>
-          {welcomeScreenLoading ? (
-            <>{loadingIcon()}</>
-          ) : loading ? (
-            <>{loadingIcon()}</>
-          ) : registering ? (
-            <>{loadingIcon()}</>
-          ) : !user ? (
-            <>
-              <Route exact path='/'>
-                <LoginComponent
-                  submitLogin={submitLogin}
-                  inputUserName={inputUserName}
-                  inputPassword={inputPassword}
-                  registerUser={registerUser}
-                  forgotPassword={forgotPassword}
-                />
-                {emailVerification ? (
-                  <p style={{ color: 'red' }}>Email successfully sent</p>
-                ) : null}
-                {errorMessage ? (
-                  <p style={{ color: 'red' }}>{errorMessage}</p>
-                ) : null}
-              </Route>
-            </>
-          ) : loggingOut ? (
-            <>{loadingIcon()}</>
-          ) : (
-            <>
-              <Route path='/messenger'>
-                <div className='app-messenger-container'>
-                  <Messenger
-                    usersArray={usersArray}
-                    userInfo={user}
-                    messages={messages}
-                    logout={logout}
-                  />
-                </div>
-              </Route>
-              <Route path='/profile'>
-                <Mprofile
-                  logout={logout}
-                  userInfo={user}
-                  usersArray={usersArray}
-                  messages={messages}
-                />
-              </Route>
-            </>
-          )}
-        </div>
-      </>
-    </Switch>
+    // <Switch>
+    <>
+      <div className='App'>
+        {welcomeScreenLoading ? (
+          <>{loadingIcon()}</>
+        ) : loading ? (
+          <>{loadingIcon()}</>
+        ) : registering ? (
+          <>{loadingIcon()}</>
+        ) : !user ? (
+          <>
+            {/* <Route exact path='/'> */}
+            <LoginComponent
+              submitLogin={submitLogin}
+              inputUserName={inputUserName}
+              inputPassword={inputPassword}
+              registerUser={registerUser}
+              forgotPassword={forgotPassword}
+            />
+            {emailVerification ? (
+              <p style={{ color: 'red' }}>Email successfully sent</p>
+            ) : null}
+            {errorMessage ? (
+              <p style={{ color: 'red' }}>{errorMessage}</p>
+            ) : null}
+            {/* </Route> */}
+          </>
+        ) : loggingOut ? (
+          <>{loadingIcon()}</>
+        ) : (
+          <>
+            {/* <Route path='/messenger'> */}
+            <div className='app-messenger-container'>
+              <Messenger
+                usersArray={usersArray}
+                userInfo={user}
+                messages={messages}
+                logout={logout}
+              />
+            </div>
+            {/* </Route> */}
+          </>
+        )}
+      </div>
+    </>
+    // </Switch>
   );
 }
 

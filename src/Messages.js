@@ -83,7 +83,6 @@ export default function Messages({ messages, usersArray, uploadImage }) {
       </>
     );
   };
-  console.log('Messages', messages);
   return (
     <div className='messengerContainerList'>
       {loading ? (

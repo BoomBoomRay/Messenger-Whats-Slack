@@ -65,6 +65,3 @@
 .channels__container {
   display: flex;
 }
-.channel__div ul {
-  color: red;
-}

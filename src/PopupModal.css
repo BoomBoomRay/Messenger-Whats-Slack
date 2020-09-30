@@ -11,8 +11,10 @@
 }
 .channel {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: baseline;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 .channel > h2 {
   color: white;

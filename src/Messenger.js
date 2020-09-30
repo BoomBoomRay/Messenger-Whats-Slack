@@ -2,10 +2,10 @@ import Messages from './Messages';
 import React, { useState, useEffect, useCallback } from 'react';
 import { db, storage } from './firebase';
 import SubmitMessenger from './SubmitMessenger';
-import RightNavigation from './RightNavigation';
 import LeftNavigation from './LeftNavigation';
 import firebase from 'firebase/app';
 import { useStateValue } from './StateProvider';
+import Mprofile from './Mprofile';
 
 export default function Messenger({ userInfo, logout, usersArray }) {
   const [uploadImage, setuploadImage] = useState(null);
@@ -55,7 +55,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
           user: 'mainChannel',
         });
         db.collection('channels')
-          .doc('Beaver')
+          .doc('mainChannel')
           .collection('messages')
           .orderBy('timestamp', 'desc')
           .onSnapshot((res) => {
@@ -110,7 +110,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
       <div className='messengerContainer'>
         <form>
           <div className='title-container'>
-            <h1>Room: #{selectedChannel ? selectedChannel : 'MainChannel'}</h1>
+            <h1>Room: #{selectedChannel ? selectedChannel : 'mainChannel'}</h1>
           </div>
 
           <Messages
@@ -128,7 +128,12 @@ export default function Messenger({ userInfo, logout, usersArray }) {
           />
         </form>
       </div>
-      <RightNavigation />
+      <Mprofile
+        logout={logout}
+        userInfo={userInfo}
+        usersArray={usersArray}
+        messages={messages}
+      />
     </>
   );
 }
