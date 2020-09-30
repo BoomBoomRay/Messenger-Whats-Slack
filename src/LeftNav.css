@@ -65,3 +65,51 @@
 .channels__container {
   display: flex;
 }
+/*DIRECT MSG  */
+
+.directMsg__div {
+  overflow: scroll;
+  max-height: 35%;
+  padding-left: 25px;
+  padding-right: 25px;
+  transition: height 2s;
+}
+.directMsg__div ul {
+  list-style: none;
+  text-align: left;
+}
+.directMsg__div__transition-enter,
+.directMsg__div__transition-appear {
+  max-height: 0%;
+}
+.directMsg__div__transition-enter-active,
+.directMsg__div__transition-appear-active {
+  max-height: 35%;
+  transition: all 0.5s ease;
+}
+.directMsg__div__transition-exit {
+  height: 35%;
+}
+.directMsg__div__transition-exit-active {
+  height: 0%;
+  transition: all 0.3s ease;
+}
+.directMsg__div button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  margin-right: 10px;
+  color: white;
+  font-weight: 500;
+}
+.directMsg__div li {
+  font-weight: 600;
+}
+.directMsg__div li:hover {
+  font-weight: 740;
+  transition: font-weight 0.3s ease-in-out;
+}

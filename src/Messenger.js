@@ -104,13 +104,27 @@ export default function Messenger({ userInfo, logout, usersArray }) {
         setMessage(res.docs.map((doc) => doc.data()));
       });
   };
+  const selectDM = (email) => {
+    setSelectedChannel(email);
+    db.collection('channels')
+      .doc(email)
+      .collection('messages')
+      .orderBy('timestamp', 'desc')
+      .onSnapshot((res) => {
+        setMessage(res.docs.map((doc) => doc.data()));
+      });
+  };
   return (
     <>
-      <LeftNavigation changeChannel={changeChannel} channels={chanels} />
+      <LeftNavigation
+        selectDM={selectDM}
+        changeChannel={changeChannel}
+        channels={chanels}
+      />
       <div className='messengerContainer'>
         <form>
           <div className='title-container'>
-            <h1>Room: #{selectedChannel ? selectedChannel : 'mainChannel'}</h1>
+            <h1>Room: # {selectedChannel ? selectedChannel : 'mainChannel'}</h1>
           </div>
 
           <Messages

@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { db } from './firebase';
 import firebase from 'firebase/app';
 import AddIcon from '@material-ui/icons/Add';
-import './PopupModal.css';
+import './DirectMsgModal.css';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { useStateValue } from './StateProvider';
 
@@ -24,7 +24,7 @@ const customStyles = {
 
 Modal.setAppElement('body');
 export default function PopUpModal({ toggleDropdownDM, openDm }) {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [usersOnline, setUsersOnline] = useState([]);
   const [, dispatch] = useStateValue();
 
@@ -45,13 +45,10 @@ export default function PopUpModal({ toggleDropdownDM, openDm }) {
     createNewDm(email);
   };
   const createNewDm = (email) => {
-    db.collection('directMessages').doc(email).set({
+    db.collection('channels').doc(email).set({
       timestamp: firebase.firestore.Timestamp.now(),
       user: email,
-    });
-    dispatch({
-      type: 'SELECT_CHANNEL',
-      user: { user: email, channel: 'directMessages' },
+      directMessage: true,
     });
   };
   const renderUsers = () => {
@@ -67,8 +64,8 @@ export default function PopUpModal({ toggleDropdownDM, openDm }) {
   };
 
   return (
-    <div className='channel'>
-      <div className='channel__title__div'>
+    <div className='directMsg'>
+      <div className='directMsg__title__div'>
         <ArrowRightIcon
           className={openDm ? 'addIcon' : 'closeIcon'}
           onClick={toggleDropdownDM}
