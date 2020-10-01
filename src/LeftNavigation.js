@@ -35,14 +35,21 @@ export default function LeftNavigation({
     setOpen(!open);
   };
 
+  const deleteDM = () => {
+    console.log('fire');
+  };
+
   const renderDms = () => {
     return directMessages?.map((i, _) => {
       return (
-        <ul key={_}>
-          <button onClick={() => selectDM(i.dmRecipient)}>
-            <li>{i.dmRecipient}</li>
-          </button>
-        </ul>
+        <div className='dmList__div'>
+          <ul key={_}>
+            <button onClick={() => selectDM(i.dmRecipient)}>
+              <li>{i.dmRecipient}</li>
+            </button>
+          </ul>
+          <button onClick={deleteDM}>x</button>
+        </div>
       );
     });
   };

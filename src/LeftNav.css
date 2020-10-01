@@ -11,9 +11,7 @@
 }
 .channel__div {
   overflow: scroll;
-  max-height: 35%;
-  padding-left: 25px;
-  padding-right: 25px;
+  height: 20%;
   transition: height 2s;
 }
 .channel__div ul {
@@ -22,15 +20,15 @@
 }
 .channel__div__transition-enter,
 .channel__div__transition-appear {
-  max-height: 0%;
+  height: 0%;
 }
 .channel__div__transition-enter-active,
 .channel__div__transition-appear-active {
-  max-height: 35%;
+  height: 20%;
   transition: all 0.5s ease;
 }
 .channel__div__transition-exit {
-  height: 35%;
+  height: 20%;
 }
 .channel__div__transition-exit-active {
   height: 0%;
@@ -65,14 +63,15 @@
 .channels__container {
   display: flex;
 }
+
 /*DIRECT MSG  */
 
 .directMsg__div {
   overflow: scroll;
-  max-height: 35%;
-  padding-left: 25px;
-  padding-right: 25px;
+  height: 20%;
+  padding-right: 27px;
   transition: height 2s;
+  border-bottom: 1px solid red;
 }
 .directMsg__div ul {
   list-style: none;
@@ -80,15 +79,15 @@
 }
 .directMsg__div__transition-enter,
 .directMsg__div__transition-appear {
-  max-height: 0%;
+  height: 0%;
 }
 .directMsg__div__transition-enter-active,
 .directMsg__div__transition-appear-active {
-  max-height: 35%;
+  height: 20%;
   transition: all 0.5s ease;
 }
 .directMsg__div__transition-exit {
-  height: 35%;
+  height: 20%;
 }
 .directMsg__div__transition-exit-active {
   height: 0%;
@@ -112,4 +111,18 @@
 .directMsg__div li:hover {
   font-weight: 740;
   transition: font-weight 0.3s ease-in-out;
+}
+.dmList__div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.dmList__div ul {
+  margin-top: 0;
+}
+.dmList__div > button {
+  display: none;
+}
+.dmList__div:hover > button {
+  display: block;
 }
