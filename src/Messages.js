@@ -35,20 +35,11 @@ export default function Messages({ messages, usersArray, uploadImage }) {
       'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png';
   };
 
-  const renderDate = () => {
-    const firstDate = sortedMessages[0].timestamp.seconds;
-    sortedMessages.filter((i, ind) => i.timestamp.seconds - firstDate > 86400);
-  };
   const renderMessages = () => {
     return (
       <>
         {sortedMessages.map((message, i) => (
           <div key={message.timestamp} className='message-container'>
-            {/* <p>
-              {moment
-                .unix(message?.timestamp.seconds)
-                .format('MMMM Do YYYY, h:mma')}
-            </p> */}
             <div className='message-profile-div'>
               {usersArray
                 .filter((i) => i.email === message.email)

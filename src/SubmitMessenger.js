@@ -12,28 +12,43 @@ export default function SubmitMessenger({
   selectedChannel,
 }) {
   const [input, setInput] = useState('');
-  const [{ sentMessage }, dispatch] = useStateValue();
+  const [{ sentMessage, email }, dispatch] = useStateValue();
   const docName = selectedChannel ? selectedChannel : 'mainChannel';
 
   const handleMessage = (e) => {
     e.preventDefault();
     setInput(e.target.value);
   };
-
   const submitMessage = (e) => {
     e.preventDefault();
-    db.collection('channels').doc(docName).collection('messages').add({
-      timestamp: firebase.firestore.Timestamp.now(),
-      content: input,
-      edit: false,
-      email: userInfo.email,
-      uploadImage: uploadImage,
-    });
-    dispatch({
-      type: 'SUBMIT_MESSAGE',
-      sentMessage: true,
-    });
-
+    if (email) {
+      db.collection(userInfo.email).doc(email).collection('messages').add({
+        timestamp: firebase.firestore.Timestamp.now(),
+        content: input,
+        edit: false,
+        email: userInfo.email,
+        uploadImage: uploadImage,
+      });
+      db.collection(email).doc(userInfo.email).collection('messages').add({
+        timestamp: firebase.firestore.Timestamp.now(),
+        content: input,
+        edit: false,
+        email: userInfo.email,
+        uploadImage: uploadImage,
+      });
+    } else {
+      db.collection('channels').doc(docName).collection('messages').add({
+        timestamp: firebase.firestore.Timestamp.now(),
+        content: input,
+        edit: false,
+        email: userInfo.email,
+        uploadImage: uploadImage,
+      });
+      dispatch({
+        type: 'SUBMIT_MESSAGE',
+        sentMessage: true,
+      });
+    }
     setInput('');
   };
   return (

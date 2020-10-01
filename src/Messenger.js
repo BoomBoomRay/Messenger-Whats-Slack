@@ -104,9 +104,13 @@ export default function Messenger({ userInfo, logout, usersArray }) {
         setMessage(res.docs.map((doc) => doc.data()));
       });
   };
-  const selectDM = (email) => {
+  const selectDM = (email, users) => {
+    dispatch({
+      type: 'DIRECT_MESSAGE_SELECT',
+      email: email,
+    });
     setSelectedChannel(email);
-    db.collection('channels')
+    db.collection(userInfo.email)
       .doc(email)
       .collection('messages')
       .orderBy('timestamp', 'desc')

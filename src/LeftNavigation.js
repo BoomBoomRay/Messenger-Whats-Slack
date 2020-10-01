@@ -18,11 +18,9 @@ export default function LeftNavigation({
   const [, dispatch] = useStateValue();
 
   useEffect(() => {
-    db.collection('channels')
-      .where('directMessage', '==', true)
-      .onSnapshot((res) =>
-        setDirectMessages(res.docs.map((doc) => doc.data()))
-      );
+    db.collection(userInfo.email).onSnapshot((res) =>
+      setDirectMessages(res.docs.map((i) => i.data()))
+    );
   }, []);
 
   const renderChannels = () => {
@@ -40,22 +38,11 @@ export default function LeftNavigation({
   };
 
   const renderDms = () => {
-    const loggedInUserDm = directMessages.filter(
-      (i) => i.user || i.dmRecipient === userInfo.email
-    );
-    return loggedInUserDm?.map((i, _) => {
+    return directMessages?.map((i, _) => {
       return (
         <ul key={_}>
-          <button onClick={() => selectDM(i.user)}>
-            <li>
-              {userInfo.email === i.dmRecipient
-                ? i.user
-                : userInfo.email === i.user
-                ? i.dmRecipient
-                : i.user && i.dmRecipient !== userInfo.email
-                ? null
-                : null}
-            </li>
+          <button onClick={() => selectDM(i.dmRecipient)}>
+            <li>{i.dmRecipient}</li>
           </button>
         </ul>
       );
@@ -64,7 +51,6 @@ export default function LeftNavigation({
   const toggleDropdownDM = (e) => {
     setOpenDm(!openDm);
   };
-  console.log(userInfo);
   return (
     <div className='leftNavContainer'>
       <h1>Chat Messenger</h1>

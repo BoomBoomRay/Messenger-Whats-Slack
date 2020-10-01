@@ -26,12 +26,16 @@ Modal.setAppElement('body');
 export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
   const [showModal, setShowModal] = useState(false);
   const [usersOnline, setUsersOnline] = useState([]);
+  const [directMessages, setDirectMessages] = useState([]);
   const [, dispatch] = useStateValue();
 
   useEffect(() => {
     db.collection('users').onSnapshot((res) => {
       setUsersOnline(res.docs.map((doc) => doc.data()));
     });
+    db.collection(userInfo.email).onSnapshot((res) =>
+      setDirectMessages(res.docs.map((i) => i.data()))
+    );
   }, []);
 
   const handleOpenModal = () => {
@@ -45,20 +49,33 @@ export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
     createNewDm(email);
   };
   const createNewDm = (email) => {
-    db.collection('channels').doc(userInfo.email).set({
+    db.collection(userInfo.email).doc(email).set({
       timestamp: firebase.firestore.Timestamp.now(),
       dmRecipient: email,
       user: userInfo.email,
       directMessage: true,
     });
+    db.collection(email).doc(userInfo.email).set({
+      timestamp: firebase.firestore.Timestamp.now(),
+      dmRecipient: userInfo.email,
+      user: email,
+      directMessage: true,
+    });
   };
   const renderUsers = () => {
-    const filteredUsers = usersOnline.filter((i) => i.email !== userInfo.email);
-    return filteredUsers?.map((i, _) => {
+    const filteredUsers = usersOnline
+      .filter((i) => i.email !== userInfo.email)
+      .map((i) => i.email);
+
+    const existingDm = directMessages?.map((i) => i.dmRecipient);
+    const nonExistingUsersinDm = filteredUsers.filter(
+      (i) => !existingDm.includes(i)
+    );
+    return nonExistingUsersinDm?.map((i, _) => {
       return (
         <ul key={_}>
-          <button onClick={() => selectedUser(i.email)}>
-            <li>{i.email}</li>
+          <button onClick={() => selectedUser(i)}>
+            <li>{i}</li>
           </button>
         </ul>
       );

@@ -1,15 +1,20 @@
 export const initialState = {
   user: [],
+  email: [],
   sentMessage: false,
 };
 
 const reducer = (state, action) => {
-  console.log(action);
   switch (action.type) {
     case 'SELECT_CHANNEL':
       return {
         ...state,
         user: action.user,
+      };
+    case 'DIRECT_MESSAGE_SELECT':
+      return {
+        ...state,
+        email: action.email,
       };
     case 'SUBMIT_MESSAGE':
       return {
