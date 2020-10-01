@@ -4,7 +4,6 @@ import { db } from './firebase';
 import ChannelModal from './ChannelModal';
 import DMModal from './DirectMsgModal';
 import { CSSTransition } from 'react-transition-group';
-import { useStateValue } from './StateProvider';
 
 export default function LeftNavigation({
   userInfo,
@@ -15,7 +14,6 @@ export default function LeftNavigation({
   const [open, setOpen] = useState(false);
   const [openDm, setOpenDm] = useState(false);
   const [directMessages, setDirectMessages] = useState([]);
-  const [, dispatch] = useStateValue();
 
   useEffect(() => {
     db.collection(userInfo.email).onSnapshot((res) =>

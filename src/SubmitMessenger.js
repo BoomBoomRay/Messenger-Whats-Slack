@@ -5,20 +5,18 @@ import { db } from './firebase';
 import { useStateValue } from './StateProvider';
 export default function SubmitMessenger({
   userInfo,
-  channels,
-  userFromDb,
   uploadImage,
-  inputNameChannel,
   selectedChannel,
 }) {
   const [input, setInput] = useState('');
-  const [{ sentMessage, email }, dispatch] = useStateValue();
+  const [{ email }, dispatch] = useStateValue();
   const docName = selectedChannel ? selectedChannel : 'mainChannel';
 
   const handleMessage = (e) => {
     e.preventDefault();
     setInput(e.target.value);
   };
+
   const submitMessage = (e) => {
     e.preventDefault();
     if (email) {
@@ -44,11 +42,11 @@ export default function SubmitMessenger({
         email: userInfo.email,
         uploadImage: uploadImage,
       });
-      dispatch({
-        type: 'SUBMIT_MESSAGE',
-        sentMessage: true,
-      });
     }
+    dispatch({
+      type: 'SUBMIT_MESSAGE',
+      sentMessage: true,
+    });
     setInput('');
   };
   return (

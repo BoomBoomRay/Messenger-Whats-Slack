@@ -3,14 +3,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { db, storage } from './firebase';
 import SubmitMessenger from './SubmitMessenger';
 import LeftNavigation from './LeftNavigation';
-import firebase from 'firebase/app';
 import { useStateValue } from './StateProvider';
 import Mprofile from './Mprofile';
 
 export default function Messenger({ userInfo, logout, usersArray }) {
   const [uploadImage, setuploadImage] = useState(null);
   const [userFromDb, setuserFromDb] = useState(null);
-  // const [inputNameChannel, setInputNameForChannel] = useState(null);
   const [chanels, setChannels] = useState(null);
   const [messages, setMessage] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState(null);
@@ -96,6 +94,10 @@ export default function Messenger({ userInfo, logout, usersArray }) {
       type: 'SELECT_CHANNEL',
       user: selectedChnlString,
     });
+    dispatch({
+      type: 'DIRECT_MESSAGE_SELECT',
+      email: '',
+    });
     db.collection('channels')
       .doc(selectedChnlString)
       .collection('messages')
@@ -104,7 +106,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
         setMessage(res.docs.map((doc) => doc.data()));
       });
   };
-  const selectDM = (email, users) => {
+  const selectDM = (email) => {
     dispatch({
       type: 'DIRECT_MESSAGE_SELECT',
       email: email,

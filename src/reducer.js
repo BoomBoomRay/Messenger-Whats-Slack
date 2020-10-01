@@ -1,6 +1,6 @@
 export const initialState = {
   user: [],
-  email: [],
+  email: '',
   sentMessage: false,
 };
 
