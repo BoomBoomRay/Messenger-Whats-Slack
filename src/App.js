@@ -2,24 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { auth, db } from './firebase';
 import Messenger from './Messenger';
 import './App.css';
-import { Switch, Route, useHistory } from 'react-router-dom';
 import LoginComponent from './LoginComponent';
 import firebase from 'firebase/app';
-import Mprofile from './Mprofile';
 
 function App() {
   const [userName, setuserName] = useState('');
   const [passWord, setPassword] = useState('');
   const [user, setuser] = useState(null);
   const [errorMessage, seterrorMessage] = useState('');
-  const [messages, setMessage] = useState([]);
   const [usersArray, setUserArray] = useState([]);
   const [loading, setLoading] = useState(false);
   const [registering, setRegistering] = useState(false);
   const [welcomeScreenLoading, setwelcomeScreenLoading] = useState(true);
   const [loggingOut, setLoggingoutLoading] = useState(false);
   const [emailVerification, setemailVerification] = useState(false);
-  const history = useHistory();
 
   useEffect(() => {
     var unsubscribe = auth.onAuthStateChanged((user) => {
@@ -30,18 +26,6 @@ function App() {
         setuser(null);
       }
     });
-    // db.collection('channels')
-    //   .doc('Channel1')
-    //   .collection('messages')
-    //   .orderBy('timestamp', 'desc')
-    //   .onSnapshot((res) => {
-    //     setMessage(res.docs.map((doc) => doc.data()));
-    //   });
-    // db.collection('messages')
-    //   .orderBy('timestamp', 'desc')
-    //   .onSnapshot((res) => {
-    //     setMessage(res.docs.map((doc) => doc.data()));
-    //   });
     db.collection('users').onSnapshot((res) => {
       setUserArray(res.docs.map((doc) => doc.data()));
     });
@@ -67,21 +51,16 @@ function App() {
     setRegistering(true);
     try {
       let data = await auth.createUserWithEmailAndPassword(userName, passWord);
-      if (data) {
-        setuser(data.user);
-        setuserName('');
-        setPassword('');
-        setRegistering(false);
-        db.collection('users').add({
-          timestamp: firebase.firestore.Timestamp.now(),
-          email: userName,
-          user: userName,
-          uploadImage: '',
-        });
-        // history.push('/messenger');
-      } else {
-        history.push('/');
-      }
+      setuser(data.user);
+      setuserName('');
+      setPassword('');
+      setRegistering(false);
+      db.collection('users').add({
+        timestamp: firebase.firestore.Timestamp.now(),
+        email: userName,
+        user: userName,
+        uploadImage: '',
+      });
     } catch (error) {
       setRegistering(false);
       seterrorMessage(error.message);
@@ -98,11 +77,6 @@ function App() {
       setemailVerification(false);
       setuserName('');
       setPassword('');
-      // if (response) {
-      //   history.push('/messenger');
-      // } else {
-      //   history.push('/');
-      // }
     } catch (error) {
       setLoading(false);
       seterrorMessage(error.message);
@@ -127,7 +101,6 @@ function App() {
     setLoggingoutLoading(true);
     setTimeout(() => {
       setuser(null);
-      // history.push('/');
       auth
         .signOut()
         .catch((error) => {
@@ -155,7 +128,6 @@ function App() {
     );
   };
   return (
-    // <Switch>
     <>
       <div className='App'>
         {welcomeScreenLoading ? (
@@ -166,7 +138,6 @@ function App() {
           <>{loadingIcon()}</>
         ) : !user ? (
           <>
-            {/* <Route exact path='/'> */}
             <LoginComponent
               submitLogin={submitLogin}
               inputUserName={inputUserName}
@@ -180,27 +151,22 @@ function App() {
             {errorMessage ? (
               <p style={{ color: 'red' }}>{errorMessage}</p>
             ) : null}
-            {/* </Route> */}
           </>
         ) : loggingOut ? (
           <>{loadingIcon()}</>
         ) : (
           <>
-            {/* <Route path='/messenger'> */}
             <div className='app-messenger-container'>
               <Messenger
                 usersArray={usersArray}
                 userInfo={user}
-                messages={messages}
                 logout={logout}
               />
             </div>
-            {/* </Route> */}
           </>
         )}
       </div>
     </>
-    // </Switch>
   );
 }
 

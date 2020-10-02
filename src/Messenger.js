@@ -81,7 +81,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     return () => {
       mounted = false;
     };
-  }, [uploadImage, renderImgfromDB, userInfo.email]);
+  }, [uploadImage, renderImgfromDB, userInfo.email, dispatch]);
 
   const changeChannel = (ind) => {
     dispatch({

@@ -1,19 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { db, storage } from './firebase';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
-import { useHistory } from 'react-router-dom';
-import { useStateValue } from './StateProvider';
 
 export default function Mprofile({ userInfo, messages, logout, usersArray }) {
   const [userHandle, setuserHandle] = useState('');
-  const [imgLoading, setImgLoading] = useState(false);
-  const [image, setimage] = useState(null);
-  const [userFromDb, setuserFromDb] = useState(null);
+  // const [imgLoading, setImgLoading] = useState(false);
+  // const [image, setimage] = useState(null);
   const [currentImgfromStrg, setcurrentImgfromStrg] = useState('');
   const [uploadImage, setuploadImage] = useState(null);
   const [progress, setProgress] = useState(0);
-  const history = useHistory();
-  const [{ user }] = useStateValue();
 
   const renderImgfromDB = useCallback(
     (string) => {
@@ -50,16 +45,6 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
             'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png'
           );
         }
-        // db.collection('messages')
-        //   .where('email', '==', userInfo.email)
-        //   .get()
-        //   .then((data) => {
-        //     const user = data.docs.map((doc) => doc.data().user);
-        //     setuserFromDb(user[0]);
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //   });
       }
     };
     loadData();
@@ -144,7 +129,7 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
     // If img already exists
     const imageFile = e.target.files[0];
     if (imageFile) {
-      setimage(imageFile);
+      // setimage(imageFile);
       if (currentImgfromStrg) {
         const storageRef = storage
           .ref(`images/${userInfo.email}`)
@@ -164,9 +149,6 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
     }
   };
 
-  const backToMessenger = () => {
-    history.replace('/messenger');
-  };
   return (
     <div className='profile-container'>
       <div className='title-container-profile'>
@@ -176,11 +158,11 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
       <div>
         <div className='img-profile-div'>
           <div className='img-profile-container'>
-            <progress
+            {/* <progress
               value={progress}
               max='100'
               style={{ display: imgLoading ? '!none' : 'none' }}
-            />
+            /> */}
             <label className='custom-file-upload' onChange={handleUpload}>
               <input style={{ display: 'none' }} type='file' />
               <img className='img-profile' alt='' src={uploadImage}></img>

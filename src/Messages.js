@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
-import { db } from './firebase';
 import PropagateLoader from 'react-spinners/PropagateLoader';
 import { css } from '@emotion/core';
 import { useStateValue } from './StateProvider';
@@ -28,7 +27,7 @@ export default function Messages({ messages, usersArray, uploadImage }) {
       setLoading(false);
       scrollToBottom();
     }, 500);
-  }, [messages]);
+  }, [messages, sentMessage]);
 
   const imgError = (e) => {
     e.target.src =

@@ -19,7 +19,7 @@ export default function LeftNavigation({
     db.collection(userInfo.email).onSnapshot((res) =>
       setDirectMessages(res.docs.map((i) => i.data()))
     );
-  }, []);
+  }, [userInfo.email]);
 
   const renderChannels = () => {
     const sortedChannels = channels?.sort((a, b) => a.timestamp - b.timestamp);
@@ -42,8 +42,8 @@ export default function LeftNavigation({
   const renderDms = () => {
     return directMessages?.map((i, _) => {
       return (
-        <div className='dmList__div'>
-          <ul key={_}>
+        <div key={_} className='dmList__div'>
+          <ul>
             <button onClick={() => selectDM(i.dmRecipient)}>
               <li>{i.dmRecipient}</li>
             </button>

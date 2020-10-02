@@ -5,7 +5,6 @@ import firebase from 'firebase/app';
 import AddIcon from '@material-ui/icons/Add';
 import './DirectMsgModal.css';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import { useStateValue } from './StateProvider';
 
 const customStyles = {
   content: {
@@ -27,7 +26,6 @@ export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
   const [showModal, setShowModal] = useState(false);
   const [usersOnline, setUsersOnline] = useState([]);
   const [directMessages, setDirectMessages] = useState([]);
-  const [, dispatch] = useStateValue();
 
   useEffect(() => {
     db.collection('users').onSnapshot((res) => {
@@ -36,7 +34,7 @@ export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
     db.collection(userInfo.email).onSnapshot((res) =>
       setDirectMessages(res.docs.map((i) => i.data()))
     );
-  }, []);
+  }, [userInfo.email]);
 
   const handleOpenModal = () => {
     setShowModal(true);
