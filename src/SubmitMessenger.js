@@ -20,20 +20,46 @@ export default function SubmitMessenger({
   const submitMessage = (e) => {
     e.preventDefault();
     if (email) {
-      db.collection(userInfo.email).doc(email).collection('messages').add({
-        timestamp: firebase.firestore.Timestamp.now(),
-        content: input,
-        edit: false,
-        email: userInfo.email,
-        uploadImage: uploadImage,
-      });
-      db.collection(email).doc(userInfo.email).collection('messages').add({
-        timestamp: firebase.firestore.Timestamp.now(),
-        content: input,
-        edit: false,
-        email: userInfo.email,
-        uploadImage: uploadImage,
-      });
+      db.collection(userInfo.email)
+        .doc(email)
+        .update({
+          messages: firebase.firestore.FieldValue.arrayUnion({
+            timestamp: firebase.firestore.Timestamp.now(),
+            content: input,
+            edit: false,
+            email: userInfo.email,
+            uploadImage: uploadImage,
+          }),
+          recieverHasRead: false,
+        });
+      db.collection(email)
+        .doc(userInfo.email)
+        .update({
+          messages: firebase.firestore.FieldValue.arrayUnion({
+            timestamp: firebase.firestore.Timestamp.now(),
+            content: input,
+            edit: false,
+            email: userInfo.email,
+            uploadImage: uploadImage,
+          }),
+          recieverHasRead: false,
+        });
+      // db.collection(userInfo.email).doc(email).collection('messages').add({
+      //   timestamp: firebase.firestore.Timestamp.now(),
+      //   content: input,
+      //   edit: false,
+      //   email: userInfo.email,
+      //   uploadImage: uploadImage,
+      //   recieverHasRead: false,
+      // });
+      // db.collection(email).doc(userInfo.email).collection('messages').add({
+      //   timestamp: firebase.firestore.Timestamp.now(),
+      //   content: input,
+      //   edit: false,
+      //   email: userInfo.email,
+      //   uploadImage: uploadImage,
+      //   recieverHasRead: false,
+      // });
     } else {
       db.collection('channels').doc(docName).collection('messages').add({
         timestamp: firebase.firestore.Timestamp.now(),

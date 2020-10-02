@@ -11,7 +11,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
   const [userFromDb, setuserFromDb] = useState(null);
   const [chanels, setChannels] = useState(null);
   const [messages, setMessage] = useState([]);
-  const [selectedChannel, setSelectedChannel] = useState(null);
+  const [selectedChannel, setSelectedChannel] = useState('mainChannel');
   const [, dispatch] = useStateValue();
 
   const renderImgfromDB = useCallback(
@@ -114,10 +114,9 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     setSelectedChannel(email);
     db.collection(userInfo.email)
       .doc(email)
-      .collection('messages')
-      .orderBy('timestamp', 'desc')
       .onSnapshot((res) => {
-        setMessage(res.docs.map((doc) => doc.data()));
+        const messages = res.data();
+        setMessage(messages.messages ? messages.messages : []);
       });
   };
   return (
@@ -131,7 +130,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
       <div className='messengerContainer'>
         <form>
           <div className='title-container'>
-            <h1>Room: # {selectedChannel ? selectedChannel : 'mainChannel'}</h1>
+            <h1>Room: # {selectedChannel}</h1>
           </div>
 
           <Messages
@@ -139,6 +138,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
             uploadImage={uploadImage}
             messages={messages}
             usersArray={usersArray}
+            selectedChannel={selectedChannel}
           />
           <SubmitMessenger
             channels={chanels}

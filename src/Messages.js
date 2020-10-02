@@ -4,6 +4,7 @@ import PropagateLoader from 'react-spinners/PropagateLoader';
 import { css } from '@emotion/core';
 import { useStateValue } from './StateProvider';
 import moment from 'moment';
+import { db } from './firebase';
 
 const override = css`
   display: block;
@@ -11,9 +12,15 @@ const override = css`
   border-color: red;
 `;
 
-export default function Messages({ messages, usersArray, uploadImage }) {
-  const messagesEndRef = useRef(null);
+export default function Messages({
+  messages,
+  selectedChannel,
+  usersArray,
+  uploadImage,
+}) {
+  const messagesEndRef = useRef([]);
   const sortedMessages = messages.sort((a, b) => a.timestamp - b.timestamp);
+  // const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [{ sentMessage }] = useStateValue();
 
@@ -22,6 +29,8 @@ export default function Messages({ messages, usersArray, uploadImage }) {
   };
 
   useEffect(() => {
+    console.log(selectedChannel);
+    // db.collection()
     setLoading(sentMessage ? false : true);
     setTimeout(() => {
       setLoading(false);
@@ -33,7 +42,6 @@ export default function Messages({ messages, usersArray, uploadImage }) {
     e.target.src =
       'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png';
   };
-
   const renderMessages = () => {
     return (
       <>
@@ -73,6 +81,7 @@ export default function Messages({ messages, usersArray, uploadImage }) {
       </>
     );
   };
+  // console.log(messages);
   return (
     <div className='messengerContainerList'>
       {loading ? (

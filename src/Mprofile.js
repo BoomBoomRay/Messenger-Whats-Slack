@@ -176,7 +176,7 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
         </div>
         <h2>{userInfo.email}</h2>
         {renderUserInfo()}
-        <h2>{messages.user}</h2>
+        {/* <h2>{messages.user}</h2> */}
         <input
           placeholder={userHandle}
           value={userHandle}

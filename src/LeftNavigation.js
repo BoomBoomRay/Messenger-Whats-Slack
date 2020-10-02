@@ -10,17 +10,28 @@ export default function LeftNavigation({
   channels,
   changeChannel,
   selectDM,
+  messages,
 }) {
-  const [open, setOpen] = useState(false);
-  const [openDm, setOpenDm] = useState(false);
+  const [open, setOpen] = useState(true);
+  const [openDm, setOpenDm] = useState(true);
   const [directMessages, setDirectMessages] = useState([]);
+  const [directMessageStatus, setDirectMessageStatus] = useState([]);
 
   useEffect(() => {
     db.collection(userInfo.email).onSnapshot((res) =>
       setDirectMessages(res.docs.map((i) => i.data()))
     );
+    db.collection(userInfo.email)
+      .where('user', '==', userInfo.email)
+      .onSnapshot((res) =>
+        res.docs.map((doc) => {
+          const data = doc.data();
+          setDirectMessageStatus(
+            data.recieverHasRead ? data.recieverHasRead : data
+          );
+        })
+      );
   }, [userInfo.email]);
-
   const renderChannels = () => {
     const sortedChannels = channels?.sort((a, b) => a.timestamp - b.timestamp);
     return sortedChannels?.map((i, ind) => (
@@ -35,22 +46,49 @@ export default function LeftNavigation({
     setOpen(!open);
   };
 
-  const deleteDM = () => {
-    console.log('fire');
-  };
+  const deleteDM = (user) => {
+    db.collection(userInfo.email)
+      .doc(user)
+      .delete()
+      .then(() => {
+        console.log('SUCCESFULLY DELETED');
+      })
+      .catch((error) => {
+        console.log('ERROR WITH DELETING Direct Message');
+      });
 
+    console.log('firee', user);
+  };
   const renderDms = () => {
+    const fromUserWhoSentMsg = directMessages[0]?.messages
+      ? directMessages[0]?.messages[directMessages[0].messages.length - 1].email
+      : directMessages[0];
     return directMessages?.map((i, _) => {
       return (
         <div key={_} className='dmList__div'>
           <ul>
-            <button onClick={() => selectDM(i.dmRecipient)}>
+            {directMessages[0]?.messages ? (
+              userInfo.email !== fromUserWhoSentMsg ? (
+                !i.recieverHasRead ? (
+                  <li>hey</li>
+                ) : null
+              ) : null
+            ) : null}
+            <button onClick={() => selectedSpecificDM(i.dmRecipient, true)}>
               <li>{i.dmRecipient}</li>
             </button>
           </ul>
-          <button onClick={deleteDM}>x</button>
+          <button onClick={() => deleteDM(i.dmRecipient)}>x</button>
         </div>
       );
+    });
+  };
+
+  const selectedSpecificDM = (dmRecipient, boolean) => {
+    selectDM(dmRecipient);
+    setDirectMessageStatus(boolean);
+    db.collection(userInfo.email).doc(dmRecipient).update({
+      recieverHasRead: boolean,
     });
   };
   const toggleDropdownDM = (e) => {

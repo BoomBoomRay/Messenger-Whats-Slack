@@ -52,12 +52,14 @@ export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
       dmRecipient: email,
       user: userInfo.email,
       directMessage: true,
+      recieverHasRead: false,
     });
     db.collection(email).doc(userInfo.email).set({
       timestamp: firebase.firestore.Timestamp.now(),
       dmRecipient: userInfo.email,
       user: email,
       directMessage: true,
+      recieverHasRead: false,
     });
   };
   const renderUsers = () => {
