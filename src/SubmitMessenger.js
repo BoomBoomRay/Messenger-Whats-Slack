@@ -44,6 +44,10 @@ export default function SubmitMessenger({
           }),
           recieverHasRead: false,
         });
+      dispatch({
+        type: 'DIRECT_MESSAGE_SELECT',
+        email: userInfo.email,
+      });
       // db.collection(userInfo.email).doc(email).collection('messages').add({
       //   timestamp: firebase.firestore.Timestamp.now(),
       //   content: input,
@@ -67,6 +71,10 @@ export default function SubmitMessenger({
         edit: false,
         email: userInfo.email,
         uploadImage: uploadImage,
+      });
+      dispatch({
+        type: 'SELECT_CHANNEL',
+        user: docName,
       });
     }
     dispatch({
