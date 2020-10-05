@@ -65,13 +65,27 @@ export default function SubmitMessenger({
       //   recieverHasRead: false,
       // });
     } else {
-      db.collection('channels').doc(docName).collection('messages').add({
-        timestamp: firebase.firestore.Timestamp.now(),
-        content: input,
-        edit: false,
-        email: userInfo.email,
-        uploadImage: uploadImage,
-      });
+      console.log(docName);
+      db.collection('channels')
+        .doc(docName)
+        .update({
+          messages: firebase.firestore.FieldValue.arrayUnion({
+            timestamp: firebase.firestore.Timestamp.now(),
+            content: input,
+            edit: false,
+            email: userInfo.email,
+            uploadImage: uploadImage,
+            channelName: docName,
+          }),
+          recieverHasRead: false,
+        }); // db.collection('channels').doc(docName).collection('messages').add({
+      //   timestamp: firebase.firestore.Timestamp.now(),
+      //   content: input,
+      //   edit: false,
+      //   email: userInfo.email,
+      //   uploadImage: uploadImage,
+      //   channel: docName,
+      // });
       dispatch({
         type: 'SELECT_CHANNEL',
         user: docName,
@@ -80,6 +94,7 @@ export default function SubmitMessenger({
     dispatch({
       type: 'SUBMIT_MESSAGE',
       sentMessage: true,
+      userSentMg: userInfo.email,
     });
     setInput('');
   };

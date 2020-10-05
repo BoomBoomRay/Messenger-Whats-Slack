@@ -12,7 +12,9 @@ export default function Messenger({ userInfo, logout, usersArray }) {
   const [chanels, setChannels] = useState(null);
   const [messages, setMessage] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState('mainChannel');
-  const [, dispatch] = useStateValue();
+  const [{ userSentMg, selectedBoolean }, dispatch] = useStateValue();
+
+  const lastUser = { messages: messages };
 
   const renderImgfromDB = useCallback(
     (string) => {
@@ -29,6 +31,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     },
     [userInfo.email]
   );
+  console.log(messages);
 
   useEffect(() => {
     let mounted = true;
@@ -48,31 +51,15 @@ export default function Messenger({ userInfo, logout, usersArray }) {
             'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png'
           );
         }
-        dispatch({
-          type: 'SELECT_CHANNEL',
-          user: 'mainChannel',
-        });
         db.collection('channels')
           .doc('mainChannel')
-          .collection('messages')
-          .orderBy('timestamp', 'desc')
           .onSnapshot((res) => {
-            setMessage(res.docs.map((doc) => doc.data()));
+            setMessage(res.data().messages ? res.data().messages : []);
           });
         db.collection('channels')
           .where('channel', '==', true)
           .onSnapshot((res) => {
             setChannels(res.docs.map((d) => d.data()));
-          });
-        db.collection('messages')
-          .where('email', '==', userInfo.email)
-          .get()
-          .then((data) => {
-            const user = data.docs.map((doc) => doc.data().user);
-            setuserFromDb(user[0]);
-          })
-          .catch((error) => {
-            console.log(error);
           });
       }
     };
@@ -93,6 +80,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     dispatch({
       type: 'SELECT_CHANNEL',
       user: selectedChnlString,
+      selectedBoolean: true,
     });
     dispatch({
       type: 'DIRECT_MESSAGE_SELECT',
@@ -100,10 +88,8 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     });
     db.collection('channels')
       .doc(selectedChnlString)
-      .collection('messages')
-      .orderBy('timestamp', 'desc')
       .onSnapshot((res) => {
-        setMessage(res.docs.map((doc) => doc.data()));
+        setMessage(res.data().messages ? res.data().messages : []);
       });
   };
   const selectDM = (email) => {
@@ -118,6 +104,10 @@ export default function Messenger({ userInfo, logout, usersArray }) {
         const messages = res.data();
         setMessage(messages.messages ? messages.messages : []);
       });
+  };
+
+  const checkChannelMessages = () => {
+    db.collection('channels').doc(selectedChannel);
   };
   return (
     <>
@@ -134,6 +124,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
           </div>
 
           <Messages
+            lastUser={lastUser}
             userInfo={userInfo}
             uploadImage={uploadImage}
             messages={messages}
@@ -149,12 +140,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
           />
         </form>
       </div>
-      <Mprofile
-        logout={logout}
-        userInfo={userInfo}
-        usersArray={usersArray}
-        messages={messages}
-      />
+      <Mprofile logout={logout} userInfo={userInfo} usersArray={usersArray} />
     </>
   );
 }
