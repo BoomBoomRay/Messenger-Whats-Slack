@@ -16,7 +16,6 @@ export default function SubmitMessenger({
     e.preventDefault();
     setInput(e.target.value);
   };
-
   const submitMessage = (e) => {
     e.preventDefault();
     if (email) {
@@ -46,12 +45,7 @@ export default function SubmitMessenger({
           }),
           recieverHasRead: false,
         });
-      dispatch({
-        type: 'DIRECT_MESSAGE_SELECT',
-        email: userInfo.email,
-      });
     } else {
-      console.log(docName);
       db.collection('channels')
         .doc(docName)
         .update({

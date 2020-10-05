@@ -92,7 +92,7 @@ export const Messages = React.memo(
       </div>
     );
   },
-  (nextProps) => {
+  (prevProps, nextProps) => {
     const nextChannel =
       nextProps?.messages[nextProps.messages.length - 1]?.channelName;
 

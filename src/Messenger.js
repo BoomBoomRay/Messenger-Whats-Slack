@@ -91,6 +91,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
       });
   };
   const selectDM = (email) => {
+    console.log(email);
     dispatch({
       type: 'DIRECT_MESSAGE_SELECT',
       email: email,
@@ -108,7 +109,9 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     <>
       <LeftNavigation
         userInfo={userInfo}
+        selectedChannel={selectedChannel}
         selectDM={selectDM}
+        messages={messages}
         changeChannel={changeChannel}
         channels={chanels}
       />
