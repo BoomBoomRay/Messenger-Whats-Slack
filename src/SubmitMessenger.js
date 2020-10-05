@@ -29,6 +29,7 @@ export default function SubmitMessenger({
             edit: false,
             email: userInfo.email,
             uploadImage: uploadImage,
+            channelName: email,
           }),
           recieverHasRead: false,
         });
@@ -41,6 +42,7 @@ export default function SubmitMessenger({
             edit: false,
             email: userInfo.email,
             uploadImage: uploadImage,
+            channelName: userInfo.email,
           }),
           recieverHasRead: false,
         });

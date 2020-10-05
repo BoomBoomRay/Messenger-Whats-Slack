@@ -106,9 +106,6 @@ export default function Messenger({ userInfo, logout, usersArray }) {
       });
   };
 
-  const checkChannelMessages = () => {
-    db.collection('channels').doc(selectedChannel);
-  };
   return (
     <>
       <LeftNavigation

@@ -77,7 +77,6 @@ export const Messages = React.memo(
         </>
       );
     };
-    console.log('selectedChannel', selectedChannel);
     return (
       <div className='messengerContainerList'>
         {loading ? (
@@ -99,10 +98,10 @@ export const Messages = React.memo(
     const nextChannel =
       nextProps?.messages[nextProps.messages.length - 1]?.channelName;
 
-    console.log('prevProps', prevProps);
-    console.log('nextProps', nextProps);
-    if (nextChannel !== nextProps.selectedChannel) {
-      return true;
+    if (nextProps?.messages.length > 0) {
+      if (nextChannel !== nextProps.selectedChannel) {
+        return true;
+      }
     } else {
       return false;
     }
