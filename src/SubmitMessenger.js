@@ -71,10 +71,22 @@ export default function SubmitMessenger({
     });
     setInput('');
   };
+  const msgIsRead = () => {
+    if (email) {
+      db.collection(userInfo.email).doc(email).update({
+        recieverHasRead: true,
+      });
+    } else {
+      db.collection('channels').doc(docName).update({
+        recieverHasRead: false,
+      });
+    }
+  };
   return (
     <div>
       <div className='input-container'>
         <input
+          onFocus={msgIsRead}
           className='input-message'
           value={input}
           onChange={handleMessage}
