@@ -91,7 +91,6 @@ export default function Messenger({ userInfo, logout, usersArray }) {
       });
   };
   const selectDM = (email) => {
-    console.log(email);
     dispatch({
       type: 'DIRECT_MESSAGE_SELECT',
       email: email,

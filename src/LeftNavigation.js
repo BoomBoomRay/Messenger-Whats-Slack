@@ -18,21 +18,30 @@ export const LeftNavigation = React.memo(
     const [openDm, setOpenDm] = useState(true);
     const [directMessages, setDirectMessages] = useState([]);
     const [directMessageStatus, setDirectMessageStatus] = useState([]);
-
+    const fromUserWhoSentMsg = directMessages[0]?.messages
+      ? directMessages[0]?.messages[directMessages[0].messages.length - 1].email
+      : directMessages[0];
+    // console.log('user sent msg:', fromUserWhoSentMsg);
+    // console.log('selected channel', selectedChannel);
     useEffect(() => {
       db.collection(userInfo.email).onSnapshot((res) =>
         setDirectMessages(res.docs.map((i) => i.data()))
       );
-
+      console.log('fire');
       db.collection(userInfo.email)
         .where('user', '==', userInfo.email)
         .onSnapshot((res) =>
           res.docs.map((doc) => {
             const data = doc.data();
-            setDirectMessageStatus(data.recieverHasRead);
+            setDirectMessageStatus(
+              selectedChannel === fromUserWhoSentMsg
+                ? true
+                : data.recieverHasRead
+            );
           })
         );
-    }, [userInfo.email]);
+    }, [userInfo.email, directMessageStatus]);
+
     const renderChannels = () => {
       const sortedChannels = channels?.sort(
         (a, b) => a.timestamp - b.timestamp
@@ -74,7 +83,7 @@ export const LeftNavigation = React.memo(
             <ul>
               {directMessages[0]?.messages ? (
                 userInfo.email !== fromUserWhoSentMsg ? (
-                  selectedChannel !== fromUserWhoSentMsg ? (
+                  !directMessageStatus ? (
                     !i.recieverHasRead ? (
                       <li>hey</li>
                     ) : null
@@ -100,16 +109,6 @@ export const LeftNavigation = React.memo(
     };
     const toggleDropdownDM = (e) => {
       setOpenDm(!openDm);
-    };
-
-    const checkMsgNotificaiton = () => {
-      const fromUserWhoSentMsg = directMessages[0]?.messages
-        ? directMessages[0]?.messages[directMessages[0].messages.length - 1]
-            .email
-        : directMessages[0];
-      if (selectedChannel !== fromUserWhoSentMsg) {
-        setDirectMessageStatus(true);
-      }
     };
 
     return (
