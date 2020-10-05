@@ -50,22 +50,6 @@ export default function SubmitMessenger({
         type: 'DIRECT_MESSAGE_SELECT',
         email: userInfo.email,
       });
-      // db.collection(userInfo.email).doc(email).collection('messages').add({
-      //   timestamp: firebase.firestore.Timestamp.now(),
-      //   content: input,
-      //   edit: false,
-      //   email: userInfo.email,
-      //   uploadImage: uploadImage,
-      //   recieverHasRead: false,
-      // });
-      // db.collection(email).doc(userInfo.email).collection('messages').add({
-      //   timestamp: firebase.firestore.Timestamp.now(),
-      //   content: input,
-      //   edit: false,
-      //   email: userInfo.email,
-      //   uploadImage: uploadImage,
-      //   recieverHasRead: false,
-      // });
     } else {
       console.log(docName);
       db.collection('channels')
@@ -80,14 +64,7 @@ export default function SubmitMessenger({
             channelName: docName,
           }),
           recieverHasRead: false,
-        }); // db.collection('channels').doc(docName).collection('messages').add({
-      //   timestamp: firebase.firestore.Timestamp.now(),
-      //   content: input,
-      //   edit: false,
-      //   email: userInfo.email,
-      //   uploadImage: uploadImage,
-      //   channel: docName,
-      // });
+        });
       dispatch({
         type: 'SELECT_CHANNEL',
         user: docName,

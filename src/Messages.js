@@ -4,7 +4,6 @@ import PropagateLoader from 'react-spinners/PropagateLoader';
 import { css } from '@emotion/core';
 import { useStateValue } from './StateProvider';
 import moment from 'moment';
-import { db } from './firebase';
 
 const override = css`
   display: block;
@@ -13,18 +12,17 @@ const override = css`
 `;
 
 export const Messages = React.memo(
-  ({ messages, selectedChannel, usersArray, uploadImage, userInfo }) => {
+  ({ messages, usersArray }) => {
     const messagesEndRef = useRef([]);
     const sortedMessages = messages.sort((a, b) => a.timestamp - b.timestamp);
     const [loading, setLoading] = useState(false);
-    const [{ sentMessage, userSentMg }] = useStateValue();
+    const [{ sentMessage }] = useStateValue();
 
     const scrollToBottom = () => {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     };
 
     useEffect(() => {
-      // db.collection()
       setLoading(sentMessage ? false : true);
       setTimeout(() => {
         setLoading(false);
@@ -94,7 +92,7 @@ export const Messages = React.memo(
       </div>
     );
   },
-  (prevProps, nextProps) => {
+  (nextProps) => {
     const nextChannel =
       nextProps?.messages[nextProps.messages.length - 1]?.channelName;
 

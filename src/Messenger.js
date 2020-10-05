@@ -12,7 +12,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
   const [chanels, setChannels] = useState(null);
   const [messages, setMessage] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState('mainChannel');
-  const [{ userSentMg, selectedBoolean }, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
 
   const lastUser = { messages: messages };
 
@@ -31,7 +31,6 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     },
     [userInfo.email]
   );
-  console.log(messages);
 
   useEffect(() => {
     let mounted = true;
@@ -80,7 +79,6 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     dispatch({
       type: 'SELECT_CHANNEL',
       user: selectedChnlString,
-      selectedBoolean: true,
     });
     dispatch({
       type: 'DIRECT_MESSAGE_SELECT',
