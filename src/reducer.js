@@ -1,6 +1,7 @@
 export const initialState = {
   user: 'mainChannel',
   email: '',
+  nameOfChannel: '',
   isChannel: true,
   selectedBoolean: false,
   userSentMsg: '',
@@ -26,6 +27,11 @@ const reducer = (state, action) => {
         ...state,
         sentMessage: action.sentMessage,
         userSentMsg: action.userSentMsg,
+      };
+    case 'NEW_CREATED_CHANNEL':
+      return {
+        ...state,
+        nameOfChannel: action.nameOfChannel,
       };
     default:
       return state;

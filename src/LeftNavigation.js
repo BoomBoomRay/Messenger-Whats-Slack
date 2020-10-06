@@ -22,7 +22,6 @@ export const LeftNavigation = ({
       : directMessages[0]?.messages[directMessages[0]?.messages?.length - 1]
           .email;
 
-  console.log(directMessages);
   useEffect(() => {
     db.collection(userInfo.email).onSnapshot((res) =>
       setDirectMessages(res.docs.map((i) => (i.data() ? i.data() : [])))
@@ -62,19 +61,19 @@ export const LeftNavigation = ({
     setOpen(!open);
   };
 
-  const deleteDM = (user) => {
-    db.collection(userInfo.email)
-      .doc(user)
-      .delete()
-      .then(() => {
-        console.log('SUCCESFULLY DELETED');
-      })
-      .catch((error) => {
-        console.log('ERROR WITH DELETING Direct Message');
-      });
+  // const deleteDM = (user) => {
+  //   db.collection(userInfo.email)
+  //     .doc(user)
+  //     .delete()
+  //     .then(() => {
+  //       console.log('SUCCESFULLY DELETED');
+  //     })
+  //     .catch((error) => {
+  //       console.log('ERROR WITH DELETING Direct Message');
+  //     });
 
-    console.log('firee', user);
-  };
+  //   console.log('firee', user);
+  // };
 
   const renderDms = () => {
     const fromUserWhoSentMsg =
@@ -106,7 +105,7 @@ export const LeftNavigation = ({
               </button>
             ) : null}
           </ul>
-          <button onClick={() => deleteDM(i.dmRecipient)}>x</button>
+          {/* <button onClick={() => deleteDM(i.dmRecipient)}>x</button> */}
         </div>
       );
     });

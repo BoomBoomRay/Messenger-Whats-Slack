@@ -12,7 +12,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
   const [chanels, setChannels] = useState(null);
   const [messages, setMessage] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState('mainChannel');
-  const [, dispatch] = useStateValue();
+  const [{ nameOfChannel }, dispatch] = useStateValue();
 
   const lastUser = { messages: messages };
 
@@ -31,7 +31,6 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     },
     [userInfo.email]
   );
-
   useEffect(() => {
     let mounted = true;
     const loadData = async () => {
@@ -51,7 +50,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
           );
         }
         db.collection('channels')
-          .doc('mainChannel')
+          .doc(nameOfChannel ? nameOfChannel : 'mainChannel')
           .onSnapshot((res) => {
             setMessage(res.data().messages ? res.data().messages : []);
           });
@@ -67,7 +66,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     return () => {
       mounted = false;
     };
-  }, [uploadImage, renderImgfromDB, userInfo.email, dispatch]);
+  }, [uploadImage, renderImgfromDB, userInfo.email, dispatch, nameOfChannel]);
 
   const changeChannel = (ind, boolean, sentBY) => {
     const specificChannel = chanels[ind].channelName;
@@ -86,6 +85,10 @@ export default function Messenger({ userInfo, logout, usersArray }) {
       type: 'DIRECT_MESSAGE_SELECT',
       email: '',
       isChannel: true,
+    });
+    dispatch({
+      type: 'NEW_CREATED_CHANNEL',
+      nameOfChannel: '',
     });
     db.collection('channels')
       .doc(selectedChnlString)
@@ -107,6 +110,10 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     dispatch({
       type: 'SELECT_CHANNEL',
       user: '',
+    });
+    dispatch({
+      type: 'NEW_CREATED_CHANNEL',
+      nameOfChannel: '',
     });
     setSelectedChannel(email);
     db.collection(userInfo.email)
@@ -130,7 +137,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
       <div className='messengerContainer'>
         <form>
           <div className='title-container'>
-            <h1>Room: # {selectedChannel}</h1>
+            <h1>Room: # {nameOfChannel ? nameOfChannel : selectedChannel}</h1>
           </div>
 
           <Messages

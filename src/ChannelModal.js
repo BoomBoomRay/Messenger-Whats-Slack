@@ -5,6 +5,7 @@ import firebase from 'firebase/app';
 import AddIcon from '@material-ui/icons/Add';
 import './PopupModal.css';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { useStateValue } from './StateProvider';
 
 const customStyles = {
   content: {
@@ -23,6 +24,7 @@ Modal.setAppElement('body');
 export default function PopUpModal({ toggleDropdownChannel, open }) {
   const [showModal, setShowModal] = useState(false);
   const [inputNameChannel, setInputNameForChannel] = useState('');
+  const [, dispatch] = useStateValue();
 
   const inputNewChannel = (e) => {
     setInputNameForChannel(e.target.value);
@@ -33,6 +35,10 @@ export default function PopUpModal({ toggleDropdownChannel, open }) {
       timestamp: firebase.firestore.Timestamp.now(),
       channelName: inputNameChannel,
       channel: true,
+    });
+    dispatch({
+      type: 'NEW_CREATED_CHANNEL',
+      nameOfChannel: inputNameChannel,
     });
     handleCloseModal();
   };
