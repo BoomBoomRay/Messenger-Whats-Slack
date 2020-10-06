@@ -1,8 +1,9 @@
 export const initialState = {
-  user: [],
+  user: 'mainChannel',
   email: '',
+  isChannel: true,
   selectedBoolean: false,
-  userSentMg: '',
+  userSentMsg: '',
   sentMessage: false,
 };
 
@@ -18,12 +19,13 @@ const reducer = (state, action) => {
       return {
         ...state,
         email: action.email,
+        isChannel: action.isChannel,
       };
     case 'SUBMIT_MESSAGE':
       return {
         ...state,
         sentMessage: action.sentMessage,
-        userSentMg: action.userSentMg,
+        userSentMsg: action.userSentMsg,
       };
     default:
       return state;

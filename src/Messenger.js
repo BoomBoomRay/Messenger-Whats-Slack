@@ -69,7 +69,9 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     };
   }, [uploadImage, renderImgfromDB, userInfo.email, dispatch]);
 
-  const changeChannel = (ind) => {
+  const changeChannel = (ind, boolean, sentBY) => {
+    const specificChannel = chanels[ind].channelName;
+
     dispatch({
       type: 'SUBMIT_MESSAGE',
       sentMessage: false,
@@ -83,17 +85,28 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     dispatch({
       type: 'DIRECT_MESSAGE_SELECT',
       email: '',
+      isChannel: true,
     });
     db.collection('channels')
       .doc(selectedChnlString)
       .onSnapshot((res) => {
         setMessage(res.data().messages ? res.data().messages : []);
       });
+    if (sentBY !== userInfo.email) {
+      db.collection('channels').doc(specificChannel).update({
+        recieverHasRead: boolean,
+      });
+    }
   };
   const selectDM = (email) => {
     dispatch({
       type: 'DIRECT_MESSAGE_SELECT',
       email: email,
+      isChannel: false,
+    });
+    dispatch({
+      type: 'SELECT_CHANNEL',
+      user: '',
     });
     setSelectedChannel(email);
     db.collection(userInfo.email)

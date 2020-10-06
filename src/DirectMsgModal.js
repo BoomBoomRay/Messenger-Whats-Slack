@@ -53,6 +53,9 @@ export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
       user: userInfo.email,
       directMessage: true,
       recieverHasRead: false,
+      createdBy: userInfo.email,
+      list: false,
+      messages: [],
     });
     db.collection(email).doc(userInfo.email).set({
       timestamp: firebase.firestore.Timestamp.now(),
@@ -60,6 +63,9 @@ export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
       user: email,
       directMessage: true,
       recieverHasRead: false,
+      createdBy: userInfo.email,
+      list: false,
+      messages: [],
     });
   };
   const renderUsers = () => {

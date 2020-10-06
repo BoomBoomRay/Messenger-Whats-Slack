@@ -9,9 +9,8 @@ export default function SubmitMessenger({
   selectedChannel,
 }) {
   const [input, setInput] = useState('');
-  const [{ email }, dispatch] = useStateValue();
+  const [{ email, user, userSentMsg }, dispatch] = useStateValue();
   const docName = selectedChannel ? selectedChannel : 'mainChannel';
-
   const handleMessage = (e) => {
     e.preventDefault();
     setInput(e.target.value);
@@ -31,6 +30,7 @@ export default function SubmitMessenger({
             channelName: email,
           }),
           recieverHasRead: false,
+          list: true,
         });
       db.collection(email)
         .doc(userInfo.email)
@@ -44,6 +44,7 @@ export default function SubmitMessenger({
             channelName: userInfo.email,
           }),
           recieverHasRead: false,
+          list: true,
         });
     } else {
       db.collection('channels')
@@ -58,6 +59,7 @@ export default function SubmitMessenger({
             channelName: docName,
           }),
           recieverHasRead: false,
+          sentBy: userInfo.email,
         });
       dispatch({
         type: 'SELECT_CHANNEL',
@@ -67,7 +69,7 @@ export default function SubmitMessenger({
     dispatch({
       type: 'SUBMIT_MESSAGE',
       sentMessage: true,
-      userSentMg: userInfo.email,
+      userSentMsg: userInfo.email,
     });
     setInput('');
   };
@@ -76,9 +78,9 @@ export default function SubmitMessenger({
       db.collection(userInfo.email).doc(email).update({
         recieverHasRead: true,
       });
-    } else {
+    } else if (userInfo.email !== userSentMsg) {
       db.collection('channels').doc(docName).update({
-        recieverHasRead: false,
+        recieverHasRead: true,
       });
     }
   };
