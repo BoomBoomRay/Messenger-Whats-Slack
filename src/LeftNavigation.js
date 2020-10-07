@@ -44,17 +44,22 @@ export const LeftNavigation = ({
   ]);
   const renderChannels = () => {
     const sortedChannels = channels?.sort((a, b) => a.timestamp - b.timestamp);
-
     return sortedChannels?.map((i, ind) => (
-      <ul className='channel__list__ul' key={ind}>
-        <button onClick={() => changeChannel(ind, true, i.sentBy)}>
-          <li>#{i.channelName}</li>
-        </button>
-        {i.sentBy === userInfo.email ? null : selectedChannel !==
-            i.channelName && i.recieverHasRead === false ? (
-          <NotificationsNoneIcon className='notification__bell' />
-        ) : null}
-      </ul>
+      <div
+        className={
+          i.channelName === selectedChannel ? 'channel__div__container_' : null
+        }
+      >
+        <ul className='channel__list__ul' key={ind}>
+          <button onClick={() => changeChannel(ind, true, i.sentBy)}>
+            <li>#{i.channelName}</li>
+          </button>
+          {i.sentBy === userInfo.email ? null : selectedChannel !==
+              i.channelName && i.recieverHasRead === false ? (
+            <NotificationsNoneIcon className='notification__bell' />
+          ) : null}
+        </ul>
+      </div>
     ));
   };
   const toggleDropdownChannel = (e) => {
@@ -75,6 +80,7 @@ export const LeftNavigation = ({
   //   console.log('firee', user);
   // };
 
+  console.log(directMessages);
   const renderDms = () => {
     const fromUserWhoSentMsg =
       directMessages[0]?.messages.length <= 0
@@ -83,7 +89,12 @@ export const LeftNavigation = ({
             .email;
     return directMessages?.map((i, _) => {
       return (
-        <div key={_} className='dmList__div'>
+        <div
+          key={_}
+          className={
+            i.dmRecipient === selectedChannel ? 'dmList__container_' : null
+          }
+        >
           <ul className='dmList__ul'>
             {i.createdBy === userInfo.email ? (
               <button onClick={() => selectedSpecificDM(i.dmRecipient, true)}>

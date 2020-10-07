@@ -66,8 +66,9 @@
 .channel__list__ul {
   display: flex;
   justify-content: flex-start;
-  margin-right: 35px;
   align-items: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .notification__bell {
   height: 14px !important;
@@ -81,17 +82,34 @@
   width: 16px !important;
 }
 
+.channel__div__container_ ul {
+  background: rgb(93, 107, 184);
+  font-weight: bolder;
+}
+.channel__div__container_ ul button li {
+  font-weight: 800;
+}
+.dmList__container_ ul {
+  background: rgb(93, 107, 184);
+  font-weight: bolder;
+}
+.dmList__container_ ul button li {
+  font-weight: 800;
+}
+
 /*DIRECT MSG  */
 .dmList__ul {
   display: flex;
   justify-content: flex-start;
-  margin-right: 35px;
+  /* margin-right: 35px; */
   align-items: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .directMsg__div {
   overflow: scroll;
   height: 20%;
-  padding-right: 27px;
+  /* padding-right: 27px; */
   transition: height 2s;
   border-bottom: 1px solid red;
 }
