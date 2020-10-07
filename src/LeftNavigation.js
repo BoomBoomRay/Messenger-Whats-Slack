@@ -46,11 +46,12 @@ export const LeftNavigation = ({
     const sortedChannels = channels?.sort((a, b) => a.timestamp - b.timestamp);
     return sortedChannels?.map((i, ind) => (
       <div
+        key={ind}
         className={
           i.channelName === selectedChannel ? 'channel__div__container_' : null
         }
       >
-        <ul className='channel__list__ul' key={ind}>
+        <ul className='channel__list__ul'>
           <button onClick={() => changeChannel(ind, true, i.sentBy)}>
             <li>#{i.channelName}</li>
           </button>
@@ -66,21 +67,20 @@ export const LeftNavigation = ({
     setOpen(!open);
   };
 
-  // const deleteDM = (user) => {
-  //   db.collection(userInfo.email)
-  //     .doc(user)
-  //     .delete()
-  //     .then(() => {
-  //       console.log('SUCCESFULLY DELETED');
-  //     })
-  //     .catch((error) => {
-  //       console.log('ERROR WITH DELETING Direct Message');
-  //     });
+  const deleteDM = (user) => {
+    db.collection(userInfo.email)
+      .doc(user)
+      .delete()
+      .then(() => {
+        console.log('SUCCESFULLY DELETED');
+      })
+      .catch((error) => {
+        console.log('ERROR WITH DELETING Direct Message');
+      });
 
-  //   console.log('firee', user);
-  // };
+    console.log('firee', user);
+  };
 
-  console.log(directMessages);
   const renderDms = () => {
     const fromUserWhoSentMsg =
       directMessages[0]?.messages.length <= 0
@@ -96,26 +96,33 @@ export const LeftNavigation = ({
           }
         >
           <ul className='dmList__ul'>
-            {i.createdBy === userInfo.email ? (
-              <button onClick={() => selectedSpecificDM(i.dmRecipient, true)}>
-                <li>{i.dmRecipient}</li>
-              </button>
-            ) : i.list === true ? (
-              <button onClick={() => selectedSpecificDM(i.dmRecipient, true)}>
-                <li>{i.dmRecipient}</li>
-              </button>
-            ) : null}
-            {i.list === true ? (
-              userInfo.email !== fromUserWhoSentMsg ? (
-                !directMessageStatus ? (
-                  !i.recieverHasRead ? (
-                    <NotificationsNoneIcon className='notification__bell' />
+            <div className='dmList_icons_div'>
+              {i.createdBy === userInfo.email ? (
+                <button onClick={() => selectedSpecificDM(i.dmRecipient, true)}>
+                  <li>{i.dmRecipient}</li>
+                </button>
+              ) : i.list === true ? (
+                <button onClick={() => selectedSpecificDM(i.dmRecipient, true)}>
+                  <li>{i.dmRecipient}</li>
+                </button>
+              ) : null}
+              {i.list === true ? (
+                userInfo.email !== fromUserWhoSentMsg ? (
+                  !directMessageStatus ? (
+                    !i.recieverHasRead ? (
+                      <NotificationsNoneIcon className='notification__bell' />
+                    ) : null
                   ) : null
                 ) : null
-              ) : null
-            ) : null}
+              ) : null}
+            </div>
+            <button
+              className='dm_delete_btn'
+              onClick={() => deleteDM(i.dmRecipient)}
+            >
+              x
+            </button>
           </ul>
-          {/* <button onClick={() => deleteDM(i.dmRecipient)}>x</button> */}
         </div>
       );
     });

@@ -100,11 +100,15 @@
 /*DIRECT MSG  */
 .dmList__ul {
   display: flex;
-  justify-content: flex-start;
-  /* margin-right: 35px; */
+  justify-content: space-between;
+  margin-right: 30px;
   align-items: center;
   padding-top: 5px;
   padding-bottom: 5px;
+}
+.dmList_icons_div {
+  display: flex;
+  align-items: center;
 }
 .directMsg__div {
   overflow: scroll;
@@ -157,12 +161,10 @@
   justify-content: space-between;
   align-items: baseline;
 }
-.dmList__div ul {
-  /* margin-top: 0; */
-}
-.dmList__div > button {
+
+.dm_delete_btn {
   display: none;
 }
-.dmList__div:hover > button {
+.dmList__ul:hover .dm_delete_btn {
   display: block;
 }
