@@ -5,6 +5,7 @@ import firebase from 'firebase/app';
 import AddIcon from '@material-ui/icons/Add';
 import './DirectMsgModal.css';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { useStateValue } from './StateProvider';
 
 const customStyles = {
   content: {
@@ -26,6 +27,7 @@ export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
   const [showModal, setShowModal] = useState(false);
   const [usersOnline, setUsersOnline] = useState([]);
   const [directMessages, setDirectMessages] = useState([]);
+  const [, dispatch] = useStateValue();
 
   useEffect(() => {
     db.collection('users').onSnapshot((res) => {
@@ -66,6 +68,14 @@ export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
       createdBy: userInfo.email,
       list: false,
       messages: [],
+    });
+    dispatch({
+      type: 'NEW_CREATED_CHANNEL',
+      nameOfChannel: email,
+    });
+    dispatch({
+      type: 'DIRECT_MESSAGE_SELECT',
+      email: email,
     });
   };
   const renderUsers = () => {

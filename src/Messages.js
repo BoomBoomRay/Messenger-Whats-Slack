@@ -95,7 +95,6 @@ export const Messages = React.memo(
   (prevProps, nextProps) => {
     const nextChannel =
       nextProps?.messages[nextProps.messages.length - 1]?.channelName;
-
     if (nextProps?.messages.length > 0) {
       if (nextChannel !== nextProps.selectedChannel) {
         return true;

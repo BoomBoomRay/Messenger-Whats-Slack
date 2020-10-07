@@ -40,6 +40,10 @@ export default function PopUpModal({ toggleDropdownChannel, open }) {
       type: 'NEW_CREATED_CHANNEL',
       nameOfChannel: inputNameChannel,
     });
+    dispatch({
+      type: 'SELECT_CHANNEL',
+      user: inputNameChannel,
+    });
     handleCloseModal();
   };
   const handleOpenModal = () => {

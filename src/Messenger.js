@@ -12,7 +12,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
   const [chanels, setChannels] = useState(null);
   const [messages, setMessage] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState('mainChannel');
-  const [{ nameOfChannel }, dispatch] = useStateValue();
+  const [{ nameOfChannel, email }, dispatch] = useStateValue();
 
   const lastUser = { messages: messages };
 
@@ -49,11 +49,31 @@ export default function Messenger({ userInfo, logout, usersArray }) {
             'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png'
           );
         }
-        db.collection('channels')
-          .doc(nameOfChannel ? nameOfChannel : 'mainChannel')
-          .onSnapshot((res) => {
-            setMessage(res.data().messages ? res.data().messages : []);
-          });
+        if (email) {
+          db.collection(userInfo.email)
+            .doc(email)
+            .onSnapshot((res) => {
+              setMessage(
+                res.data()
+                  ? res.data().messages
+                    ? res.data().messages
+                    : []
+                  : []
+              );
+            });
+        } else {
+          db.collection('channels')
+            .doc(nameOfChannel ? nameOfChannel : 'mainChannel')
+            .onSnapshot((res) => {
+              setMessage(
+                res.data()
+                  ? res.data().messages
+                    ? res.data().messages
+                    : []
+                  : []
+              );
+            });
+        }
         db.collection('channels')
           .where('channel', '==', true)
           .onSnapshot((res) => {
@@ -123,7 +143,6 @@ export default function Messenger({ userInfo, logout, usersArray }) {
         setMessage(messages.messages ? messages.messages : []);
       });
   };
-
   return (
     <>
       <LeftNavigation
@@ -133,6 +152,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
         messages={messages}
         changeChannel={changeChannel}
         channels={chanels}
+        setMessage={setMessage}
       />
       <div className='messengerContainer'>
         <form>
@@ -146,14 +166,14 @@ export default function Messenger({ userInfo, logout, usersArray }) {
             uploadImage={uploadImage}
             messages={messages}
             usersArray={usersArray}
-            selectedChannel={selectedChannel}
+            selectedChannel={nameOfChannel ? nameOfChannel : selectedChannel}
           />
           <SubmitMessenger
             channels={chanels}
             userInfo={userInfo}
             userFromDb={userFromDb}
             uploadImage={uploadImage}
-            selectedChannel={selectedChannel}
+            selectedChannel={nameOfChannel ? nameOfChannel : selectedChannel}
           />
         </form>
       </div>
