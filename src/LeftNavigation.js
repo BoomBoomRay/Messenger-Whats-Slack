@@ -4,7 +4,7 @@ import { db } from './firebase';
 import ChannelModal from './ChannelModal';
 import DMModal from './DirectMsgModal';
 import { CSSTransition } from 'react-transition-group';
-
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 export const LeftNavigation = ({
   userInfo,
   channels,
@@ -46,14 +46,14 @@ export const LeftNavigation = ({
     const sortedChannels = channels?.sort((a, b) => a.timestamp - b.timestamp);
 
     return sortedChannels?.map((i, ind) => (
-      <ul key={ind}>
-        {i.sentBy === userInfo.email ? null : selectedChannel !==
-            i.channelName && i.recieverHasRead === false ? (
-          <li>hey</li>
-        ) : null}
+      <ul className='channel__list__ul' key={ind}>
         <button onClick={() => changeChannel(ind, true, i.sentBy)}>
           <li>#{i.channelName}</li>
         </button>
+        {i.sentBy === userInfo.email ? null : selectedChannel !==
+            i.channelName && i.recieverHasRead === false ? (
+          <NotificationsNoneIcon className='notification__bell' />
+        ) : null}
       </ul>
     ));
   };
@@ -84,17 +84,7 @@ export const LeftNavigation = ({
     return directMessages?.map((i, _) => {
       return (
         <div key={_} className='dmList__div'>
-          <ul>
-            {i.list === true ? (
-              userInfo.email !== fromUserWhoSentMsg ? (
-                !directMessageStatus ? (
-                  !i.recieverHasRead ? (
-                    <li>hey</li>
-                  ) : null
-                ) : null
-              ) : null
-            ) : null}
-
+          <ul className='dmList__ul'>
             {i.createdBy === userInfo.email ? (
               <button onClick={() => selectedSpecificDM(i.dmRecipient, true)}>
                 <li>{i.dmRecipient}</li>
@@ -103,6 +93,15 @@ export const LeftNavigation = ({
               <button onClick={() => selectedSpecificDM(i.dmRecipient, true)}>
                 <li>{i.dmRecipient}</li>
               </button>
+            ) : null}
+            {i.list === true ? (
+              userInfo.email !== fromUserWhoSentMsg ? (
+                !directMessageStatus ? (
+                  !i.recieverHasRead ? (
+                    <NotificationsNoneIcon className='notification__bell' />
+                  ) : null
+                ) : null
+              ) : null
             ) : null}
           </ul>
           {/* <button onClick={() => deleteDM(i.dmRecipient)}>x</button> */}
