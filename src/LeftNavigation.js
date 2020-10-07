@@ -57,7 +57,10 @@ export const LeftNavigation = ({
           </button>
           {i.sentBy === userInfo.email ? null : selectedChannel !==
               i.channelName && i.recieverHasRead === false ? (
-            <NotificationsNoneIcon className='notification__bell' />
+            <NotificationsNoneIcon
+              onClick={() => changeChannel(ind, true, i.sentBy)}
+              className='notification__bell'
+            />
           ) : null}
         </ul>
       </div>
@@ -110,7 +113,10 @@ export const LeftNavigation = ({
                 userInfo.email !== fromUserWhoSentMsg ? (
                   !directMessageStatus ? (
                     !i.recieverHasRead ? (
-                      <NotificationsNoneIcon className='notification__bell' />
+                      <NotificationsNoneIcon
+                        onClick={() => selectedSpecificDM(i.dmRecipient, true)}
+                        className='notification__bell'
+                      />
                     ) : null
                   ) : null
                 ) : null
