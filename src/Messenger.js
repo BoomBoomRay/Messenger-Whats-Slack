@@ -49,7 +49,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
             'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png'
           );
         }
-        if (email) {
+        if (email?.length > 0) {
           db.collection(userInfo.email)
             .doc(email)
             .onSnapshot((res) => {
@@ -86,7 +86,15 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     return () => {
       mounted = false;
     };
-  }, [uploadImage, renderImgfromDB, userInfo.email, dispatch, nameOfChannel]);
+  }, [
+    uploadImage,
+    renderImgfromDB,
+    userInfo.email,
+    dispatch,
+    nameOfChannel,
+    email,
+  ]);
+  console.log('EMAIL:', email);
 
   const changeChannel = (ind, boolean, sentBY) => {
     const specificChannel = chanels[ind].channelName;
@@ -140,7 +148,9 @@ export default function Messenger({ userInfo, logout, usersArray }) {
       .doc(email)
       .onSnapshot((res) => {
         const messages = res.data();
-        setMessage(messages.messages ? messages.messages : []);
+        setMessage(
+          messages ? (messages.messages ? messages.messages : []) : []
+        );
       });
   };
   return (

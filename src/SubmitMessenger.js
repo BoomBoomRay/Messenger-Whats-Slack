@@ -20,32 +20,44 @@ export default function SubmitMessenger({
     if (email) {
       db.collection(userInfo.email)
         .doc(email)
-        .update({
-          messages: firebase.firestore.FieldValue.arrayUnion({
-            timestamp: firebase.firestore.Timestamp.now(),
-            content: input,
-            edit: false,
-            email: userInfo.email,
-            uploadImage: uploadImage,
-            channelName: email,
-          }),
-          recieverHasRead: false,
-          list: true,
-        });
+        .set(
+          {
+            // .update({
+            messages: firebase.firestore.FieldValue.arrayUnion({
+              timestamp: firebase.firestore.Timestamp.now(),
+              content: input,
+              edit: false,
+              email: userInfo.email,
+              uploadImage: uploadImage,
+              channelName: email,
+            }),
+            recieverHasRead: false,
+            createdBy: userInfo.email,
+            dmRecipient: email,
+            list: true,
+          },
+          { merge: true }
+        );
       db.collection(email)
         .doc(userInfo.email)
-        .update({
-          messages: firebase.firestore.FieldValue.arrayUnion({
-            timestamp: firebase.firestore.Timestamp.now(),
-            content: input,
-            edit: false,
-            email: userInfo.email,
-            uploadImage: uploadImage,
-            channelName: userInfo.email,
-          }),
-          recieverHasRead: false,
-          list: true,
-        });
+        .set(
+          {
+            // .update({
+            messages: firebase.firestore.FieldValue.arrayUnion({
+              timestamp: firebase.firestore.Timestamp.now(),
+              content: input,
+              edit: false,
+              email: userInfo.email,
+              uploadImage: uploadImage,
+              channelName: userInfo.email,
+            }),
+            recieverHasRead: false,
+            createdBy: email,
+            dmRecipient: userInfo.email,
+            list: true,
+          },
+          { merge: true }
+        );
     } else {
       db.collection('channels')
         .doc(docName)

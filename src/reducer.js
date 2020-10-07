@@ -2,6 +2,7 @@ export const initialState = {
   user: 'mainChannel',
   email: '',
   nameOfChannel: '',
+  deleted: false,
   isChannel: true,
   selectedBoolean: false,
   userSentMsg: '',
@@ -32,6 +33,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         nameOfChannel: action.nameOfChannel,
+      };
+    case 'DELETED_CHANNEL_DM':
+      return {
+        ...state,
+        deleted: action.deleted,
       };
     default:
       return state;

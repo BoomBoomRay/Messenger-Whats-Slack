@@ -5,6 +5,8 @@ import ChannelModal from './ChannelModal';
 import DMModal from './DirectMsgModal';
 import { CSSTransition } from 'react-transition-group';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
+import { useStateValue } from './StateProvider';
+
 export const LeftNavigation = ({
   userInfo,
   channels,
@@ -21,7 +23,8 @@ export const LeftNavigation = ({
       ? directMessages.messages
       : directMessages[0]?.messages[directMessages[0]?.messages?.length - 1]
           .email;
-
+  const [, dispatch] = useStateValue();
+  console.log('DIRECT MSGS', directMessages);
   useEffect(() => {
     db.collection(userInfo.email).onSnapshot((res) =>
       setDirectMessages(res.docs.map((i) => (i.data() ? i.data() : [])))
@@ -71,6 +74,14 @@ export const LeftNavigation = ({
   };
 
   const deleteDM = (user) => {
+    dispatch({
+      type: 'DIRECT_MESSAGE_SELECT',
+      email: '',
+    });
+    dispatch({
+      type: 'NEW_CREATED_CHANNEL',
+      nameOfChannel: '',
+    });
     db.collection(userInfo.email)
       .doc(user)
       .delete()
