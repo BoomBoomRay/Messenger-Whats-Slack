@@ -98,11 +98,12 @@ export const LeftNavigation = ({
   };
 
   const renderDms = () => {
-    const fromUserWhoSentMsg =
-      directMessages[0]?.messages.length <= 0
+    const fromUserWhoSentMsg = directMessages[0]?.messages
+      ? directMessages[0]?.messages?.length <= 0
         ? directMessages[0]
         : directMessages[0]?.messages[directMessages[0].messages.length - 1]
-            .email;
+            .email
+      : [];
     return directMessages?.map((i, _) => {
       return (
         <div
@@ -147,7 +148,7 @@ export const LeftNavigation = ({
     });
   };
   const deleteNoInputUser = (recipient, array, user) => {
-    if (array.length <= 0) {
+    if (array?.length <= 0) {
       db.collection(recipient)
         .doc(user)
         .delete()

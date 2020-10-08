@@ -12,7 +12,7 @@ const override = css`
 `;
 
 export const Messages = React.memo(
-  ({ messages, usersArray }) => {
+  ({ messages, usersArray, userInfo }) => {
     const messagesEndRef = useRef([]);
     const sortedMessages = messages.sort((a, b) => a.timestamp - b.timestamp);
     const [loading, setLoading] = useState(false);
@@ -33,25 +33,49 @@ export const Messages = React.memo(
       e.target.src =
         'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png';
     };
+
     const renderMessages = () => {
+      console.log(usersArray);
+      console.log(userInfo.email);
+
+      const loggedInUser = userInfo.email;
       return (
         <>
           {sortedMessages.map((message, i) => (
-            <div key={message.timestamp} className='message-container'>
+            <div
+              key={message.timestamp}
+              className={
+                message.email === loggedInUser
+                  ? 'message-container-user'
+                  : 'message-container'
+              }
+            >
               <div className='message-profile-div'>
                 {usersArray
                   .filter((i) => i.email === message.email)
                   .map((i, _) => (
-                    <img
-                      key={_}
-                      className='message-image'
-                      alt=''
-                      onError={imgError}
-                      src={i.uploadImage}
-                    ></img>
+                    <>
+                      <img
+                        key={_}
+                        className={
+                          message.email === loggedInUser
+                            ? 'message-image-user'
+                            : 'message-image'
+                        }
+                        alt=''
+                        onError={imgError}
+                        src={i.uploadImage}
+                      ></img>
+                    </>
                   ))}
               </div>
-              <div className='message-content-container'>
+              <div
+                className={
+                  message.email === loggedInUser
+                    ? 'message-content-container-user'
+                    : 'message-content-container'
+                }
+              >
                 <div className='message-userName-div'>
                   {usersArray
                     .filter((i) => i.email === message.email)
