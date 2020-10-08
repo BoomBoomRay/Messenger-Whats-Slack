@@ -33,12 +33,13 @@ const reducer = (state, action) => {
       return {
         ...state,
         nameOfChannel: action.nameOfChannel,
-      };
-    case 'DELETED_CHANNEL_DM':
-      return {
-        ...state,
         deleted: action.deleted,
       };
+    // case 'DELETED_CHANNEL_DM':
+    //   return {
+    //     ...state,
+    //     deleted: action.deleted,
+    //   };
     default:
       return state;
   }

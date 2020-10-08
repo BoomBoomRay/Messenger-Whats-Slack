@@ -24,7 +24,7 @@ export const LeftNavigation = ({
       : directMessages[0]?.messages[directMessages[0]?.messages?.length - 1]
           .email;
   const [, dispatch] = useStateValue();
-  console.log('DIRECT MSGS', directMessages);
+
   useEffect(() => {
     db.collection(userInfo.email).onSnapshot((res) =>
       setDirectMessages(res.docs.map((i) => (i.data() ? i.data() : [])))
@@ -81,6 +81,7 @@ export const LeftNavigation = ({
     dispatch({
       type: 'NEW_CREATED_CHANNEL',
       nameOfChannel: '',
+      deleted: true,
     });
     db.collection(userInfo.email)
       .doc(user)
@@ -91,8 +92,6 @@ export const LeftNavigation = ({
       .catch((error) => {
         console.log('ERROR WITH DELETING Direct Message');
       });
-
-    console.log('firee', user);
   };
 
   const renderDms = () => {

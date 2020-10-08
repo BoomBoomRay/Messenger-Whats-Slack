@@ -8,11 +8,10 @@ import Mprofile from './Mprofile';
 
 export default function Messenger({ userInfo, logout, usersArray }) {
   const [uploadImage, setuploadImage] = useState(null);
-  const [userFromDb, setuserFromDb] = useState(null);
   const [chanels, setChannels] = useState(null);
   const [messages, setMessage] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState('mainChannel');
-  const [{ nameOfChannel, email }, dispatch] = useStateValue();
+  const [{ nameOfChannel, email, deleted }, dispatch] = useStateValue();
 
   const lastUser = { messages: messages };
 
@@ -49,30 +48,26 @@ export default function Messenger({ userInfo, logout, usersArray }) {
             'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png'
           );
         }
-        if (email?.length > 0) {
+
+        if (email) {
           db.collection(userInfo.email)
             .doc(email)
             .onSnapshot((res) => {
-              setMessage(
-                res.data()
-                  ? res.data().messages
-                    ? res.data().messages
-                    : []
-                  : []
-              );
+              setMessage(res.data()?.messages ? res.data().messages : []);
             });
+          setSelectedChannel(email);
+        } else if (nameOfChannel) {
+          db.collection('channels')
+            .doc(nameOfChannel)
+            .onSnapshot((res) => {
+              setMessage(res.data()?.messages ? res.data().messages : []);
+            });
+          setSelectedChannel(nameOfChannel);
         } else {
           db.collection('channels')
-            .doc(nameOfChannel ? nameOfChannel : 'mainChannel')
-            .onSnapshot((res) => {
-              setMessage(
-                res.data()
-                  ? res.data().messages
-                    ? res.data().messages
-                    : []
-                  : []
-              );
-            });
+            .doc('mainChannel')
+            .onSnapshot((res) => setMessage(res.data().messages));
+          setSelectedChannel('mainChannel');
         }
         db.collection('channels')
           .where('channel', '==', true)
@@ -93,8 +88,8 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     dispatch,
     nameOfChannel,
     email,
+    deleted,
   ]);
-  console.log('EMAIL:', email);
 
   const changeChannel = (ind, boolean, sentBY) => {
     const specificChannel = chanels[ind].channelName;
@@ -177,11 +172,11 @@ export default function Messenger({ userInfo, logout, usersArray }) {
             messages={messages}
             usersArray={usersArray}
             selectedChannel={nameOfChannel ? nameOfChannel : selectedChannel}
+            deleted={deleted}
           />
           <SubmitMessenger
             channels={chanels}
             userInfo={userInfo}
-            userFromDb={userFromDb}
             uploadImage={uploadImage}
             selectedChannel={nameOfChannel ? nameOfChannel : selectedChannel}
           />
