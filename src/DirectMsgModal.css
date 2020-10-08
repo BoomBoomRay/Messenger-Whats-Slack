@@ -16,9 +16,6 @@
   margin-left: 20px;
   margin-right: 20px;
 }
-.directMsg > h2 {
-  color: white;
-}
 .modal__font {
   color: white;
   font-weight: 600;
@@ -39,7 +36,7 @@
   color: white;
   cursor: pointer;
 }
-.directMsg__title__div h2 {
+.directMsg__title__div h3 {
   color: white;
   cursor: pointer;
 }

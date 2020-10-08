@@ -97,19 +97,17 @@ export default function SubmitMessenger({
     }
   };
   return (
-    <div>
-      <div className='input-container'>
-        <input
-          onFocus={msgIsRead}
-          className='input-message'
-          value={input}
-          onChange={handleMessage}
-          placeholder='Type Message'
-        ></input>
-        <button className='send-button' onClick={submitMessage}>
-          <SendIcon />
-        </button>
-      </div>
+    <div className='input-container'>
+      <input
+        onFocus={msgIsRead}
+        className='input-message'
+        value={input}
+        onChange={handleMessage}
+        placeholder='Type Message'
+      ></input>
+      <button className='send-button' onClick={submitMessage}>
+        <SendIcon />
+      </button>
     </div>
   );
 }

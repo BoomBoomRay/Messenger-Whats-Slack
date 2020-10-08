@@ -1,13 +1,22 @@
+.channelsList__container {
+  border-bottom: 1px solid white;
+  height: 540px;
+  margin-top: 15px;
+}
 .leftNavContainer {
   border: 2px solid #3f51b5;
-  max-width: 400px;
-  min-width: 400px;
-  max-height: 400px;
+  /* max-width: 400px; */
+  width: 400px;
+  /* min-width: 400px; */
+  /* max-height: 400px; */
   min-height: 650px;
   border-radius: 4px;
   margin-top: -3px;
   box-shadow: 1px 3px 10px -1px #aaaaaa;
   background-color: #3f51b5;
+}
+.leftNavContainer h1 {
+  color: white;
 }
 .channel__div {
   overflow: scroll;
@@ -115,7 +124,6 @@
   height: 20%;
   /* padding-right: 27px; */
   transition: height 2s;
-  border-bottom: 1px solid red;
 }
 .directMsg__div ul {
   list-style: none;

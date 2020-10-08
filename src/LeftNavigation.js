@@ -169,28 +169,33 @@ export const LeftNavigation = ({
   return (
     <div className='leftNavContainer'>
       <h1>Chat Messenger</h1>
-      <ChannelModal open={open} toggleDropdownChannel={toggleDropdownChannel} />
-      <CSSTransition
-        in={open}
-        unmountOnExit
-        timeout={500}
-        classNames='channel__div__transition'
-      >
-        <div className='channel__div'>{open && renderChannels()}</div>
-      </CSSTransition>
-      <DMModal
-        userInfo={userInfo}
-        openDm={openDm}
-        toggleDropdownDM={toggleDropdownDM}
-      />
-      <CSSTransition
-        in={openDm}
-        unmountOnExit
-        timeout={500}
-        classNames='directMsg__div__transition'
-      >
-        <div className='directMsg__div'>{openDm && renderDms()} </div>
-      </CSSTransition>
+      <div className='channelsList__container'>
+        <ChannelModal
+          open={open}
+          toggleDropdownChannel={toggleDropdownChannel}
+        />
+        <CSSTransition
+          in={open}
+          unmountOnExit
+          timeout={500}
+          classNames='channel__div__transition'
+        >
+          <div className='channel__div'>{open && renderChannels()}</div>
+        </CSSTransition>
+        <DMModal
+          userInfo={userInfo}
+          openDm={openDm}
+          toggleDropdownDM={toggleDropdownDM}
+        />
+        <CSSTransition
+          in={openDm}
+          unmountOnExit
+          timeout={500}
+          classNames='directMsg__div__transition'
+        >
+          <div className='directMsg__div'>{openDm && renderDms()} </div>
+        </CSSTransition>
+      </div>
     </div>
   );
 };

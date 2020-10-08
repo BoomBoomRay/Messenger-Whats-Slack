@@ -59,7 +59,7 @@ export default function PopUpModal({ toggleDropdownChannel, open }) {
           className={open ? 'addIcon' : 'closeIcon'}
           onClick={toggleDropdownChannel}
         />
-        <h2 onClick={toggleDropdownChannel}>Channels</h2>
+        <h3 onClick={toggleDropdownChannel}>Channels</h3>
       </div>
       <button className='add-button' onClick={handleOpenModal}>
         <AddIcon />

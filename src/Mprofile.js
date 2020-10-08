@@ -8,6 +8,7 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
   // const [image, setimage] = useState(null);
   const [currentImgfromStrg, setcurrentImgfromStrg] = useState('');
   const [uploadImage, setuploadImage] = useState(null);
+  const [toggleChangeUserName, setToggleChangerUserName] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const renderImgfromDB = useCallback(
@@ -70,6 +71,7 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
         );
       });
     setuserHandle('');
+    setToggleChangerUserName(!toggleChangeUserName);
   };
 
   const renderUserInfo = () => {
@@ -78,10 +80,30 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
       .map((i) => i.user);
     return (
       <>
-        <h2>User Handle: {filterUser}</h2>
+        <h2>Welcome {filterUser}</h2>
+        <p onClick={() => setToggleChangerUserName(!toggleChangeUserName)}>
+          Change Username?
+        </p>
       </>
     );
   };
+  const renderChangeUserNameInput = () => {
+    return (
+      <div className='changeUserName__div'>
+        <form>
+          <input
+            placeholder={userHandle}
+            value={userHandle}
+            onChange={(e) => setuserHandle(e.target.value)}
+          ></input>
+          <button onClick={submitUsername} disabled={userHandle ? false : true}>
+            Change
+          </button>
+        </form>
+      </div>
+    );
+  };
+
   const uploadPhoto = (obj) => {
     const uploadTask = storage
       .ref(`images/${userInfo.email}/${obj.name}`)
@@ -154,38 +176,28 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
       <div className='title-container-profile'>
         <h1>Profile</h1>
       </div>
-      {/* <button onClick={backToMessenger}>back</button> */}
-      <div>
-        <div className='img-profile-div'>
-          <div className='img-profile-container'>
-            {/* <progress
+      <div className='img-profile-div'>
+        {renderUserInfo()}
+        {toggleChangeUserName && renderChangeUserNameInput()}
+        <div className='img-profile-container'>
+          {/* <progress
               value={progress}
               max='100'
               style={{ display: imgLoading ? '!none' : 'none' }}
             /> */}
-            <label className='custom-file-upload' onChange={handleUpload}>
-              <input style={{ display: 'none' }} type='file' />
-              <img className='img-profile' alt='' src={uploadImage}></img>
-              <AddPhotoAlternateIcon className='custom-file-img-icon' />
-            </label>
-            <label onChange={handleUpload}>
-              <input style={{ display: 'none' }} type='file' />
-              <p className='change-pic-label'>Change Picture</p>
-            </label>
-          </div>
+          <label className='custom-file-upload' onChange={handleUpload}>
+            <input style={{ display: 'none' }} type='file' />
+            <img className='img-profile' alt='' src={uploadImage}></img>
+            <AddPhotoAlternateIcon className='custom-file-img-icon' />
+          </label>
+          <label onChange={handleUpload}>
+            <input style={{ display: 'none' }} type='file' />
+            <p className='change-pic-label'>Change Picture</p>
+          </label>
         </div>
-        <h2>{userInfo.email}</h2>
-        {renderUserInfo()}
-        {/* <h2>{messages.user}</h2> */}
-        <input
-          placeholder={userHandle}
-          value={userHandle}
-          onChange={(e) => setuserHandle(e.target.value)}
-        ></input>
-        <button onClick={submitUsername} disabled={userHandle ? false : true}>
-          Change Username
-        </button>
-        <button onClick={logout}>Logout</button>
+        <div className='logout__div'>
+          <button onClick={logout}>Logout</button>
+        </div>
       </div>
     </div>
   );

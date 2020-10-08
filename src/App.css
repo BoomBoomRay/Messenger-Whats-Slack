@@ -41,12 +41,12 @@ body {
 }
 .messengerContainer {
   border: 2px solid lightgray;
-  min-width: 600px;
-  height: 650px;
+  width: 100%;
   border-radius: 4px;
   margin-top: -3px;
   border-top-color: #3f51b5;
   box-shadow: 1px 3px 10px -1px #aaaaaa;
+  position: relative;
 }
 
 .messengerContainerList {
@@ -56,13 +56,12 @@ body {
   flex-direction: column;
   align-items: flex-start;
   overflow: auto;
-  margin-bottom: 25px;
-  height: 505px;
+  height: 85vh;
 }
 .app-messenger-container {
-  margin-top: 100px;
   display: flex;
   width: 100%;
+  height: 100vh;
   justify-content: center;
 }
 .messengerContainerList > span {
@@ -96,7 +95,10 @@ body {
   background-color: #f2f2f2;
   display: flex;
   justify-content: space-between;
-  padding: 5px;
+  height: 2.5rem;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 .input-message {
   margin-left: 10px;
@@ -110,20 +112,18 @@ body {
 }
 
 .profile-container {
-  border: 2px solid lightgray;
-  max-width: 400px;
-  min-width: 400px;
-  max-height: 400px;
-  min-height: 650px;
+  background-color: #3f51b5;
+  border: 2px solid #3f51b5;
+  width: 400px;
   border-radius: 4px;
   margin-top: -3px;
   box-shadow: 1px 3px 10px -1px #aaaaaa;
 }
 .title-container-profile {
-  border-bottom: 2px solid #3f51b5;
+  /* border-bottom: 2px solid #3f51b5; */
 }
 .title-container-profile > h1 {
-  color: #3f51b5;
+  color: white;
 }
 .img-profile {
   max-width: 70px;
@@ -133,6 +133,40 @@ body {
   min-width: 70px;
   min-height: 70px;
 }
+.img-profile-div {
+  border-bottom: 1px solid white;
+  margin-top: 15px;
+  height: 540px;
+  position: relative;
+}
+.logout__div {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.img-profile-div > h2 {
+  color: white;
+  margin-top: 30px;
+}
+.img-profile-div > p {
+  color: white;
+  font-size: x-small;
+  margin: 0;
+  cursor: pointer;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+.changeUserName__div {
+  margin-top: 5px;
+  padding: 5px;
+}
+.changeUserName__div button {
+  margin-top: 5px;
+}
+
 .img-profile-container progress {
   /* display: none; */
 }
@@ -141,6 +175,7 @@ body {
   bottom: 38px;
   font-size: 9px;
   cursor: pointer;
+  color: white;
 }
 .message-image {
   width: 30px;
@@ -202,10 +237,7 @@ body {
   font-size: x-small;
   margin-top: 15px;
 }
-.img-profile-div {
-  border-bottom: 1px solid rgb(170, 170, 170);
-  margin-top: 15px;
-}
+
 .custom-file-upload {
   display: flex;
   align-items: center;
@@ -224,7 +256,7 @@ body {
   left: 30px;
   height: 17px !important;
   width: 15px !important;
-  color: #3f51b5;
+  color: white;
 }
 .custom-p-tag {
   position: relative;

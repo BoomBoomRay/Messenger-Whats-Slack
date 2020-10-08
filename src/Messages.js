@@ -21,7 +21,6 @@ export const Messages = React.memo(
     const scrollToBottom = () => {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     };
-    // console.log('messages in msg compnt', messages);
     useEffect(() => {
       setLoading(sentMessage ? false : true);
       setTimeout(() => {

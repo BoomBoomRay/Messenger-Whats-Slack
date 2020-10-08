@@ -5,6 +5,7 @@ import SubmitMessenger from './SubmitMessenger';
 import LeftNavigation from './LeftNavigation';
 import { useStateValue } from './StateProvider';
 import Mprofile from './Mprofile';
+import './Messenger.css';
 
 export default function Messenger({ userInfo, logout, usersArray }) {
   const [uploadImage, setuploadImage] = useState(null);
@@ -182,6 +183,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
           />
         </form>
       </div>
+
       <Mprofile logout={logout} userInfo={userInfo} usersArray={usersArray} />
     </>
   );

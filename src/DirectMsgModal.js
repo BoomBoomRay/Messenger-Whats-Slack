@@ -105,7 +105,7 @@ export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
           className={openDm ? 'addIcon' : 'closeIcon'}
           onClick={toggleDropdownDM}
         />
-        <h2 onClick={toggleDropdownDM}>Direct Message</h2>
+        <h3 onClick={toggleDropdownDM}>Direct Message</h3>
       </div>
       <button className='add-button' onClick={handleOpenModal}>
         <AddIcon />
