@@ -73,7 +73,7 @@ export const LeftNavigation = ({
     setOpen(!open);
   };
 
-  const deleteDM = (user) => {
+  const deleteDM = (dmRecipient, messages, user) => {
     dispatch({
       type: 'DIRECT_MESSAGE_SELECT',
       email: '',
@@ -83,8 +83,11 @@ export const LeftNavigation = ({
       nameOfChannel: '',
       deleted: true,
     });
+
+    deleteNoInputUser(dmRecipient, messages, user);
+
     db.collection(userInfo.email)
-      .doc(user)
+      .doc(dmRecipient)
       .delete()
       .then(() => {
         console.log('SUCCESFULLY DELETED');
@@ -134,7 +137,7 @@ export const LeftNavigation = ({
             </div>
             <button
               className='dm_delete_btn'
-              onClick={() => deleteDM(i.dmRecipient)}
+              onClick={() => deleteDM(i.dmRecipient, i.messages, i.user)}
             >
               x
             </button>
@@ -143,7 +146,15 @@ export const LeftNavigation = ({
       );
     });
   };
-
+  const deleteNoInputUser = (recipient, array, user) => {
+    if (array.length <= 0) {
+      db.collection(recipient)
+        .doc(user)
+        .delete()
+        .then(() => console.log('deleted'))
+        .catch((error) => console.log(error));
+    }
+  };
   const selectedSpecificDM = (dmRecipient, boolean) => {
     selectDM(dmRecipient);
     setDirectMessageStatus(boolean);
