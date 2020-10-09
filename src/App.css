@@ -195,12 +195,14 @@ body {
   width: 100%;
   display: flex;
   margin-top: 15px;
+  align-items: center;
 }
 .message-container-user {
   width: 100%;
   margin-top: 15px;
   display: flex;
   flex-direction: row-reverse;
+  align-items: center;
 }
 .message-profile-div {
   display: flex;
@@ -218,7 +220,19 @@ body {
 .message-content {
   font-weight: 200;
 }
+.heart__like__btn__div {
+  margin: 5px;
+}
+.heart__like__btn {
+  color: whitesmoke !important;
 
+  cursor: pointer;
+}
+.heart__like__btn__liked {
+  color: red !important;
+  /* transition: color 0.3s ease-in-out; */
+  cursor: pointer;
+}
 .message-content-container {
   display: flex;
   min-width: 300px;

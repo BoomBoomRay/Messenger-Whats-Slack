@@ -69,6 +69,7 @@ export default function SubmitMessenger({
             email: userInfo.email,
             uploadImage: uploadImage,
             channelName: docName,
+            liked: 0,
           }),
           recieverHasRead: false,
           sentBy: userInfo.email,

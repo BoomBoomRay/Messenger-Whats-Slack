@@ -70,7 +70,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
         } else {
           db.collection('channels')
             .doc('mainChannel')
-            .onSnapshot((res) => setMessage(res.data().messages));
+            .onSnapshot((res) => setMessage(res.data()?.messages));
           setSelectedChannel('mainChannel');
         }
         db.collection('channels')

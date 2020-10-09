@@ -4,7 +4,10 @@ import PropagateLoader from 'react-spinners/PropagateLoader';
 import { css } from '@emotion/core';
 import { useStateValue } from './StateProvider';
 import moment from 'moment';
+import { db } from './firebase';
+import firebase, { firestore, functions } from 'firebase/app';
 
+import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
 const override = css`
   display: block;
   margin: auto;
@@ -14,12 +17,24 @@ const override = css`
 export const Messages = React.memo(
   ({ messages, usersArray, userInfo }) => {
     const messagesEndRef = useRef([]);
-    const sortedMessages = messages.sort((a, b) => a.timestamp - b.timestamp);
+    const sortedMessages = messages?.sort((a, b) => a.timestamp - b.timestamp);
     const [loading, setLoading] = useState(false);
+    const [liked, setLike] = useState(false);
+    const [newLikeObj, setNewLikeObj] = useState(null);
+    const [{ email, user, userSentMsg }, dispatch] = useStateValue();
+    // const [likeCount, setLikeCount] = useState(0);
     const [{ sentMessage }] = useStateValue();
 
     const scrollToBottom = () => {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      if (
+        messagesEndRef.current === null ||
+        messagesEndRef.current.length <= 0
+      ) {
+        return;
+      } else {
+        messagesEndRef &&
+          messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
     };
     useEffect(() => {
       setLoading(sentMessage ? false : true);
@@ -33,12 +48,14 @@ export const Messages = React.memo(
       e.target.src =
         'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png';
     };
-
+    const fireLikeBtn = (ind) => {
+      setLike(!liked);
+    };
     const renderMessages = () => {
       const loggedInUser = userInfo.email;
       return (
         <>
-          {sortedMessages.map((message, i) => (
+          {sortedMessages?.map((message, i) => (
             <div
               key={message.timestamp}
               className={
@@ -66,6 +83,7 @@ export const Messages = React.memo(
                     </>
                   ))}
               </div>
+
               <div
                 className={
                   message.email === loggedInUser
@@ -90,6 +108,15 @@ export const Messages = React.memo(
                   </p>
                 </div>
               </div>
+
+              <div className='heart__like__btn__div'>
+                <FavoriteOutlinedIcon
+                  onClick={() => fireLikeBtn(i)}
+                  className={
+                    liked ? 'heart__like__btn__liked' : 'heart__like__btn'
+                  }
+                />
+              </div>
             </div>
           ))}
         </>
@@ -103,7 +130,7 @@ export const Messages = React.memo(
             css={override}
             className='message_loader'
           />
-        ) : messages.length <= 0 ? (
+        ) : messages?.length <= 0 ? (
           <h2> Start the chat!</h2>
         ) : (
           <>{renderMessages()}</>
@@ -113,11 +140,14 @@ export const Messages = React.memo(
     );
   },
   (prevProps, nextProps) => {
-    const nextChannel =
-      nextProps?.messages[nextProps.messages.length - 1]?.channelName;
-    if (nextProps?.messages.length > 0) {
-      if (nextChannel !== nextProps.selectedChannel) {
-        return true;
+    const nextChannel = nextProps?.messages
+      ? nextProps.messages[nextProps.messages?.length - 1]?.channelName
+      : nextProps;
+    if (nextProps?.messages) {
+      if (nextProps?.messages.length > 0) {
+        if (nextChannel !== nextProps.selectedChannel) {
+          return true;
+        }
       }
     } else {
       return false;
