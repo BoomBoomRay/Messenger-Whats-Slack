@@ -13,6 +13,9 @@ export default function Messenger({ userInfo, logout, usersArray }) {
   const [messages, setMessage] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState('mainChannel');
   const [{ nameOfChannel, email, deleted }, dispatch] = useStateValue();
+  const changeEmailtoUserName = usersArray?.filter(
+    (i) => i.email === selectedChannel
+  );
 
   const lastUser = { messages: messages };
 
@@ -149,6 +152,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
         );
       });
   };
+
   return (
     <>
       <LeftNavigation
@@ -159,13 +163,21 @@ export default function Messenger({ userInfo, logout, usersArray }) {
         changeChannel={changeChannel}
         channels={chanels}
         setMessage={setMessage}
+        usersArray={usersArray}
       />
-      <div className='messengerContainer'>
-        <form>
-          <div className='title-container'>
-            <h1>Room: # {nameOfChannel ? nameOfChannel : selectedChannel}</h1>
-          </div>
 
+      <div className='messengerContainer'>
+        <div className='title-container'>
+          <h1>
+            Room: #{' '}
+            {changeEmailtoUserName[0]?.user
+              ? changeEmailtoUserName[0].user
+              : nameOfChannel
+              ? nameOfChannel
+              : selectedChannel}
+          </h1>
+        </div>
+        <form>
           <Messages
             lastUser={lastUser}
             userInfo={userInfo}

@@ -35,9 +35,6 @@ export const Messages = React.memo(
     };
 
     const renderMessages = () => {
-      console.log(usersArray);
-      console.log(userInfo.email);
-
       const loggedInUser = userInfo.email;
       return (
         <>
@@ -56,7 +53,7 @@ export const Messages = React.memo(
                   .map((i, _) => (
                     <>
                       <img
-                        key={_}
+                        key={i.timestamp}
                         className={
                           message.email === loggedInUser
                             ? 'message-image-user'
