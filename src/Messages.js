@@ -48,8 +48,40 @@ export const Messages = React.memo(
       e.target.src =
         'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png';
     };
+
     const fireLikeBtn = (ind) => {
-      setLike(!liked);
+      const loggedInUser = userInfo.email;
+      const existingUser = sortedMessages[ind].liked
+        .map((i) => i)
+        .includes(loggedInUser);
+
+      const filteredLike = sortedMessages[ind].liked.filter(
+        (i) => i !== loggedInUser
+      );
+
+      if (existingUser) {
+        const messages = sortedMessages?.map((i, indx) =>
+          ind === indx
+            ? {
+                ...i,
+                liked: (i.liked = filteredLike),
+              }
+            : i
+        );
+      } else {
+        const messages = sortedMessages?.map((i, indx) =>
+          ind === indx
+            ? { ...i, liked: (i.liked = [...i.liked, loggedInUser]) }
+            : i
+        );
+      }
+
+      db.collection('channels').doc(user).set(
+        {
+          messages: messages,
+        },
+        { merge: true }
+      );
     };
     const renderMessages = () => {
       const loggedInUser = userInfo.email;
@@ -113,7 +145,9 @@ export const Messages = React.memo(
                 <FavoriteOutlinedIcon
                   onClick={() => fireLikeBtn(i)}
                   className={
-                    liked ? 'heart__like__btn__liked' : 'heart__like__btn'
+                    message.liked.includes(userInfo.email)
+                      ? 'heart__like__btn__liked'
+                      : 'heart__like__btn'
                   }
                 />
               </div>
