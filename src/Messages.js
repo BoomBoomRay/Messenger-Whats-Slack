@@ -59,29 +59,72 @@ export const Messages = React.memo(
         (i) => i !== loggedInUser
       );
 
-      if (existingUser) {
-        const messages = sortedMessages?.map((i, indx) =>
+      if (email) {
+        if (existingUser) {
+          const messages = sortedMessages?.map((i, indx) =>
+            ind === indx
+              ? {
+                  ...i,
+                  liked: (i.liked = filteredLike),
+                }
+              : i
+          );
+        } else {
+          const messages = sortedMessages?.map((i, indx) =>
+            ind === indx
+              ? {
+                  ...i,
+                  liked: (i.liked = [...i.liked, loggedInUser]),
+                }
+              : i
+          );
+        }
+
+        const userOne = messages.map((i, indx) =>
+          ind === indx ? { ...i, channelName: (i.channelName = email) } : i
+        );
+        const userTwo = messages.map((i, indx) =>
           ind === indx
-            ? {
-                ...i,
-                liked: (i.liked = filteredLike),
-              }
+            ? { ...i, channelName: (i.channelName = userInfo.email) }
             : i
+        );
+
+        db.collection(userInfo.email).doc(email).set(
+          {
+            messages: userOne,
+          },
+          { merge: true }
+        );
+        db.collection(email).doc(userInfo.email).set(
+          {
+            messages: userTwo,
+          },
+          { merge: true }
         );
       } else {
-        const messages = sortedMessages?.map((i, indx) =>
-          ind === indx
-            ? { ...i, liked: (i.liked = [...i.liked, loggedInUser]) }
-            : i
+        if (existingUser) {
+          const messages = sortedMessages?.map((i, indx) =>
+            ind === indx
+              ? {
+                  ...i,
+                  liked: (i.liked = filteredLike),
+                }
+              : i
+          );
+        } else {
+          const messages = sortedMessages?.map((i, indx) =>
+            ind === indx
+              ? { ...i, liked: (i.liked = [...i.liked, loggedInUser]) }
+              : i
+          );
+        }
+        db.collection('channels').doc(user).set(
+          {
+            messages: messages,
+          },
+          { merge: true }
         );
       }
-
-      db.collection('channels').doc(user).set(
-        {
-          messages: messages,
-        },
-        { merge: true }
-      );
     };
     const renderMessages = () => {
       const loggedInUser = userInfo.email;
@@ -145,7 +188,7 @@ export const Messages = React.memo(
                 <FavoriteOutlinedIcon
                   onClick={() => fireLikeBtn(i)}
                   className={
-                    message.liked.includes(userInfo.email)
+                    message.liked.length > 0
                       ? 'heart__like__btn__liked'
                       : 'heart__like__btn'
                   }
@@ -174,6 +217,8 @@ export const Messages = React.memo(
     );
   },
   (prevProps, nextProps) => {
+    // console.log(prevProps);
+    // console.log(nextProps);
     const nextChannel = nextProps?.messages
       ? nextProps.messages[nextProps.messages?.length - 1]?.channelName
       : nextProps;
