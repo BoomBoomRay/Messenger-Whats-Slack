@@ -226,16 +226,36 @@ body {
   align-items: center;
   position: relative;
   justify-content: center;
+  cursor: pointer;
 }
 .heart__like__btn__div p {
   color: white;
   position: absolute;
   font-size: 10px;
 }
-
+.like__container ul {
+  list-style: none;
+  font-size: xx-small;
+}
+.like__container {
+  height: 30px;
+  background: #f1f0f0;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16%;
+  display: none;
+}
+.heart__like__btn__div:hover + .like__container {
+  display: flex;
+}
+.like__container ul {
+  margin: 0;
+  padding: 0;
+}
 .heart__like__btn {
   color: whitesmoke !important;
-
   cursor: pointer;
 }
 .heart__like__btn__liked {

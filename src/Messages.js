@@ -49,7 +49,11 @@ export const Messages = React.memo(
         'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png';
     };
 
+    const fire = () => {
+      console.log('fire');
+    };
     const fireLikeBtn = (ind) => {
+      console.log('fore');
       const loggedInUser = userInfo.email;
       const existingUser = sortedMessages[ind].liked
         .map((i) => i)
@@ -184,9 +188,11 @@ export const Messages = React.memo(
                 </div>
               </div>
 
-              <div className='heart__like__btn__div'>
+              <div
+                className='heart__like__btn__div'
+                onClick={() => fireLikeBtn(i)}
+              >
                 <FavoriteOutlinedIcon
-                  onClick={() => fireLikeBtn(i)}
                   className={
                     message.liked.length > 0
                       ? 'heart__like__btn__liked'
@@ -195,11 +201,29 @@ export const Messages = React.memo(
                 />
                 <p>{message.liked.length}</p>
               </div>
+              <div
+                className={message.liked.length <= 0 ? '' : 'like__container'}
+              >
+                <ul>
+                  {usersArray
+                    .filter((d) => message.liked.includes(d.email))
+                    .map((i, ind) => (
+                      <div key={ind}>
+                        {i.email === userInfo.email ? (
+                          <li>You</li>
+                        ) : (
+                          <li>{i.user}</li>
+                        )}
+                      </div>
+                    ))}
+                </ul>
+              </div>
             </div>
           ))}
         </>
       );
     };
+
     return (
       <div className='messengerContainerList'>
         {loading ? (
