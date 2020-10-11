@@ -23,7 +23,12 @@ const customStyles = {
 };
 
 Modal.setAppElement('body');
-export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
+export default function PopUpModal({
+  userInfo,
+  toggleDropdownDM,
+  openDm,
+  usersArray,
+}) {
   const [showModal, setShowModal] = useState(false);
   const [usersOnline, setUsersOnline] = useState([]);
   const [directMessages, setDirectMessages] = useState([]);
@@ -87,15 +92,20 @@ export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
     const nonExistingUsersinDm = filteredUsers.filter(
       (i) => !existingDm.includes(i)
     );
-    return nonExistingUsersinDm?.map((i, _) => {
-      return (
-        <ul key={_}>
-          <button onClick={() => selectedUser(i)}>
-            <li>{i}</li>
-          </button>
-        </ul>
-      );
-    });
+    return usersArray
+      .filter((i) => nonExistingUsersinDm.includes(i.email))
+      .map((i, _) => {
+        return (
+          <ul className='dm__online__users' key={_}>
+            <div style={{ width: '60px' }}>
+              <button onClick={() => selectedUser(i.email)}>
+                <li>{i.user}</li>
+              </button>
+            </div>
+            <div className='online-div'></div>
+          </ul>
+        );
+      });
   };
 
   return (
@@ -115,7 +125,7 @@ export default function PopUpModal({ userInfo, toggleDropdownDM, openDm }) {
         isOpen={showModal}
         onRequestClose={handleCloseModal}
       >
-        <p className='modal__font'>Select User :</p>
+        <p className='modal__font'>Online Users :</p>
         {renderUsers()}
       </Modal>
     </div>

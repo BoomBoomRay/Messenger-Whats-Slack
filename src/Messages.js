@@ -15,7 +15,7 @@ const override = css`
 `;
 
 export const Messages = React.memo(
-  ({ messages, usersArray, userInfo }) => {
+  ({ messages, usersArray, userInfo, selectedChannel }) => {
     const messagesEndRef = useRef([]);
     const sortedMessages = messages?.sort((a, b) => a.timestamp - b.timestamp);
     const [loading, setLoading] = useState(false);
@@ -42,16 +42,13 @@ export const Messages = React.memo(
         setLoading(false);
         scrollToBottom();
       }, 500);
-    }, [messages, sentMessage]);
+    }, [selectedChannel, sentMessage]);
 
     const imgError = (e) => {
       e.target.src =
         'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png';
     };
 
-    const fire = () => {
-      console.log('fire');
-    };
     const fireLikeBtn = (ind) => {
       console.log('fore');
       const loggedInUser = userInfo.email;

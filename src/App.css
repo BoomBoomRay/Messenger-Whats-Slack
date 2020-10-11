@@ -240,11 +240,11 @@ body {
 .like__container {
   height: 30px;
   background: #f1f0f0;
-  width: 60px;
+  width: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16%;
+  border-radius: 10%;
   display: none;
 }
 .heart__like__btn__div:hover + .like__container {

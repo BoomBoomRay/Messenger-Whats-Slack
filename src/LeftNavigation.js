@@ -118,21 +118,11 @@ export const LeftNavigation = ({
               return (
                 <ul key={_} className='dmList__ul'>
                   <div className='dmList_icons_div'>
-                    <button
-                      onClick={() => selectedSpecificDM(i.dmRecipient, true)}
-                    >
-                      {x.user}
-                    </button>
-                    {/* <button
-                      onClick={() => selectedSpecificDM(i.dmRecipient, true)}
-                    >
-                      {x.user}
-                    </button> */}
-                    {/* {i.createdBy === userInfo.email ? (
+                    {i.createdBy === userInfo.email ? (
                       <button
                         onClick={() => selectedSpecificDM(i.dmRecipient, true)}
                       >
-                        <li>{i.user}</li>
+                        <li>{x.user}</li>
                       </button>
                     ) : i.list === true ? (
                       <button
@@ -140,7 +130,7 @@ export const LeftNavigation = ({
                       >
                         <li>{i.user}</li>
                       </button>
-                    ) : null} */}
+                    ) : null}
                     {i.list === true ? (
                       userInfo.email !== fromUserWhoSentMsg ? (
                         !directMessageStatus ? (
@@ -206,6 +196,7 @@ export const LeftNavigation = ({
           <div className='channel__div'>{open && renderChannels()}</div>
         </CSSTransition>
         <DMModal
+          usersArray={usersArray}
           userInfo={userInfo}
           openDm={openDm}
           toggleDropdownDM={toggleDropdownDM}
