@@ -193,6 +193,7 @@ export const Messages = React.memo(
                       : 'heart__like__btn'
                   }
                 />
+                <p>{message.liked.length}</p>
               </div>
             </div>
           ))}

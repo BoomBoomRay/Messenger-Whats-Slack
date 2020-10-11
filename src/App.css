@@ -222,7 +222,17 @@ body {
 }
 .heart__like__btn__div {
   margin: 5px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
 }
+.heart__like__btn__div p {
+  color: white;
+  position: absolute;
+  font-size: 10px;
+}
+
 .heart__like__btn {
   color: whitesmoke !important;
 
