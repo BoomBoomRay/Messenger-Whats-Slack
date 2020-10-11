@@ -5,7 +5,6 @@ import { css } from '@emotion/core';
 import { useStateValue } from './StateProvider';
 import moment from 'moment';
 import { db } from './firebase';
-import firebase, { firestore, functions } from 'firebase/app';
 
 import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
 const override = css`
@@ -19,10 +18,7 @@ export const Messages = React.memo(
     const messagesEndRef = useRef([]);
     const sortedMessages = messages?.sort((a, b) => a.timestamp - b.timestamp);
     const [loading, setLoading] = useState(false);
-    const [liked, setLike] = useState(false);
-    const [newLikeObj, setNewLikeObj] = useState(null);
-    const [{ email, user, userSentMsg }, dispatch] = useStateValue();
-    // const [likeCount, setLikeCount] = useState(0);
+    const [{ email, user }, dispatch] = useStateValue();
     const [{ sentMessage }] = useStateValue();
 
     const scrollToBottom = () => {
@@ -50,16 +46,13 @@ export const Messages = React.memo(
     };
 
     const fireLikeBtn = (ind) => {
-      console.log('fore');
       const loggedInUser = userInfo.email;
       const existingUser = sortedMessages[ind].liked
         .map((i) => i)
         .includes(loggedInUser);
-
       const filteredLike = sortedMessages[ind].liked.filter(
         (i) => i !== loggedInUser
       );
-
       if (email) {
         if (existingUser) {
           const messages = sortedMessages?.map((i, indx) =>
@@ -80,7 +73,6 @@ export const Messages = React.memo(
               : i
           );
         }
-
         const userOne = messages.map((i, indx) =>
           ind === indx ? { ...i, channelName: (i.channelName = email) } : i
         );
@@ -89,7 +81,6 @@ export const Messages = React.memo(
             ? { ...i, channelName: (i.channelName = userInfo.email) }
             : i
         );
-
         db.collection(userInfo.email).doc(email).set(
           {
             messages: userOne,
@@ -179,6 +170,7 @@ export const Messages = React.memo(
                 </div>
                 <div className='message-content-div'>
                   <span className='message-content'>{message.content}</span>
+                  <img src={message.imageMessage}></img>
                   <p>
                     {moment.unix(message.timestamp.seconds).format('h:mma')}
                   </p>
@@ -239,8 +231,6 @@ export const Messages = React.memo(
     );
   },
   (prevProps, nextProps) => {
-    // console.log(prevProps);
-    // console.log(nextProps);
     const nextChannel = nextProps?.messages
       ? nextProps.messages[nextProps.messages?.length - 1]?.channelName
       : nextProps;

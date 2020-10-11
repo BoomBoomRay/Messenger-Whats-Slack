@@ -92,6 +92,7 @@ body {
   color: #aaaaaa;
 }
 .input-container {
+  align-items: center;
   background-color: #f2f2f2;
   display: flex;
   justify-content: space-between;
@@ -337,6 +338,9 @@ body {
 }
 .message_loader {
   color: red;
+}
+.attach__photo {
+  cursor: pointer;
 }
 /* Animation loader */
 #loader-3:before,
