@@ -170,7 +170,13 @@ export const Messages = React.memo(
                 </div>
                 <div className='message-content-div'>
                   <span className='message-content'>{message.content}</span>
-                  <img src={message.imageMessage}></img>
+                  <>
+                    {message?.imageMessage?.length > 3 ? (
+                      <img src={message.imageMessage}></img>
+                    ) : (
+                      message.imageMessage
+                    )}
+                  </>
                   <p>
                     {moment.unix(message.timestamp.seconds).format('h:mma')}
                   </p>

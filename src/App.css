@@ -106,7 +106,6 @@ body {
   background: none;
   color: inherit;
   border: none;
-  padding: 0;
   font: inherit;
   outline: inherit;
   width: 100%;
@@ -340,6 +339,14 @@ body {
   color: red;
 }
 .attach__photo {
+  cursor: pointer;
+}
+
+.emoticon__picker {
+  position: relative;
+  bottom: 140px;
+}
+.add_emoticon_btn {
   cursor: pointer;
 }
 /* Animation loader */

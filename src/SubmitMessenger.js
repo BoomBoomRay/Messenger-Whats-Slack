@@ -4,7 +4,10 @@ import SendIcon from '@material-ui/icons/Send';
 import { db, storage } from './firebase';
 import { useStateValue } from './StateProvider';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
-import { EmailTwoTone } from '@material-ui/icons';
+import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
+import Picker from 'emoji-picker-react';
+import OutsideAlert from './OutsideAlert';
+
 export default function SubmitMessenger({
   userInfo,
   uploadImage,
@@ -15,6 +18,7 @@ export default function SubmitMessenger({
   const [{ email, user, userSentMsg }, dispatch] = useStateValue();
   const docName = selectedChannel ? selectedChannel : 'mainChannel';
   const [progress, setProgress] = useState(0);
+  const [toggleEmoticon, setToggleEmoticon] = useState(false);
 
   const handleMessage = (e) => {
     e.preventDefault();
@@ -27,7 +31,6 @@ export default function SubmitMessenger({
         .doc(email)
         .set(
           {
-            // .update({
             messages: firebase.firestore.FieldValue.arrayUnion({
               timestamp: firebase.firestore.Timestamp.now(),
               content: input,
@@ -48,7 +51,6 @@ export default function SubmitMessenger({
         .doc(userInfo.email)
         .set(
           {
-            // .update({
             messages: firebase.firestore.FieldValue.arrayUnion({
               timestamp: firebase.firestore.Timestamp.now(),
               content: input,
@@ -94,6 +96,7 @@ export default function SubmitMessenger({
     setInput('');
   };
   const msgIsRead = () => {
+    setToggleEmoticon(!toggleEmoji);
     if (email) {
       db.collection(userInfo.email).doc(email).update({
         recieverHasRead: true,
@@ -191,7 +194,6 @@ export default function SubmitMessenger({
       .doc(email)
       .set(
         {
-          // .update({
           messages: firebase.firestore.FieldValue.arrayUnion({
             timestamp: firebase.firestore.Timestamp.now(),
             content: input,
@@ -213,7 +215,6 @@ export default function SubmitMessenger({
       .doc(userInfo.email)
       .set(
         {
-          // .update({
           messages: firebase.firestore.FieldValue.arrayUnion({
             timestamp: firebase.firestore.Timestamp.now(),
             content: input,
@@ -232,12 +233,27 @@ export default function SubmitMessenger({
         { merge: true }
       );
   };
+
+  const onEmojiClick = (e, obj) => {
+    setInput([...input, obj.emoji]);
+  };
+  const toggleEmoji = () => {
+    setToggleEmoticon(!toggleEmoticon);
+  };
   return (
     <div className='input-container'>
       <label onChange={addPhoto}>
         <input style={{ display: 'none' }} type='file' />
         <AttachFileIcon className='attach__photo' />
       </label>
+      <EmojiEmotionsIcon className='add_emoticon_btn' onClick={toggleEmoji} />
+      {toggleEmoticon ? (
+        <div className='emoticon__picker'>
+          <OutsideAlert toggleEmoji={toggleEmoji}>
+            <Picker onEmojiClick={onEmojiClick} />
+          </OutsideAlert>
+        </div>
+      ) : null}
       <input
         onFocus={msgIsRead}
         className='input-message'
