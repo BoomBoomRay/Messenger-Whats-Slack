@@ -20,26 +20,52 @@ export default function SubmitMessenger({
   const [progress, setProgress] = useState(0);
   const [toggleEmoticon, setToggleEmoticon] = useState(false);
   useEffect(() => {
-    if (email) {
+    if (email || user) {
       typerIndication();
     }
   }, [input]);
 
   const typerIndication = () => {
-    if (input.length > 0) {
-      db.collection(userInfo.email).doc(email).update({
-        typing: true,
-      });
-      db.collection(email).doc(userInfo.email).update({
-        typing: true,
-      });
+    if (email) {
+      if (input.length > 0) {
+        db.collection(userInfo.email).doc(email).update({
+          typing: true,
+          email: userInfo.email,
+        });
+        db.collection(email).doc(userInfo.email).update({
+          typing: true,
+          email: userInfo.email,
+        });
+      } else {
+        db.collection(userInfo.email).doc(email).update({
+          typing: false,
+          email: null,
+        });
+        db.collection(email).doc(userInfo.email).update({
+          typing: false,
+          email: null,
+        });
+      }
     } else {
-      db.collection(userInfo.email).doc(email).update({
-        typing: false,
-      });
-      db.collection(email).doc(userInfo.email).update({
-        typing: false,
-      });
+      if (input.length > 0) {
+        db.collection('channels').doc(user).update({
+          typing: true,
+          email: userInfo.email,
+        });
+        db.collection('channels').doc(user).update({
+          typing: true,
+          email: userInfo.email,
+        });
+      } else {
+        db.collection('channels').doc(user).update({
+          typing: false,
+          email: null,
+        });
+        db.collection('channels').doc(user).update({
+          typing: false,
+          email: null,
+        });
+      }
     }
   };
   const handleMessage = (e) => {

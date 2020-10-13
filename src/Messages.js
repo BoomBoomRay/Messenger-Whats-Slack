@@ -46,6 +46,10 @@ export const Messages = React.memo(
         db.collection(userInfo.email)
           .doc(email)
           .onSnapshot((res) => setUsrOppntTyping(res.data()));
+      } else {
+        db.collection('channels')
+          .doc(user)
+          .onSnapshot((res) => setUsrOppntTyping(res.data()));
       }
     };
     const imgError = (e) => {
@@ -226,6 +230,7 @@ export const Messages = React.memo(
         </>
       );
     };
+
     return (
       <div className='messengerContainerList'>
         {loading ? (
@@ -240,10 +245,19 @@ export const Messages = React.memo(
           <>{renderMessages()}</>
         )}
         <div ref={messagesEndRef} />
-        {userOppntIsTyping.email !== userInfo.email &&
-        userOppntIsTyping.typing === true ? (
-          <p>Typing...</p>
-        ) : null}
+        {user
+          ? userOppntIsTyping.email !== userInfo.email &&
+            userOppntIsTyping.typing === true
+            ? usersArray
+                .filter((i) => i.email.includes(userOppntIsTyping.email))
+                .map((i) => <p>{i.user} is typing..</p>)
+            : null
+          : userOppntIsTyping.email !== userInfo.email &&
+            userOppntIsTyping.typing === true
+          ? usersArray
+              .filter((i) => i.email.includes(userOppntIsTyping?.email))
+              .map((i) => <p>{i.user} is typing...</p>)
+          : null}
       </div>
     );
   },
