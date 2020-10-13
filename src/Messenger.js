@@ -13,10 +13,11 @@ export default function Messenger({ userInfo, logout, usersArray }) {
   const [messages, setMessage] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState('mainChannel');
   const [{ nameOfChannel, email, deleted }, dispatch] = useStateValue();
+  const [userTyping, setUserTyping] = useState(false);
+
   const changeEmailtoUserName = usersArray?.filter(
     (i) => i.email === selectedChannel
   );
-
   const lastUser = { messages: messages };
 
   const renderImgfromDB = useCallback(
@@ -179,6 +180,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
         </div>
         <form>
           <Messages
+            userTyping={userTyping}
             lastUser={lastUser}
             userInfo={userInfo}
             uploadImage={uploadImage}
@@ -187,8 +189,11 @@ export default function Messenger({ userInfo, logout, usersArray }) {
             selectedChannel={nameOfChannel ? nameOfChannel : selectedChannel}
             deleted={deleted}
           />
+
           <SubmitMessenger
             channels={chanels}
+            setUserTyping={setUserTyping}
+            userTyping={userTyping}
             userInfo={userInfo}
             uploadImage={uploadImage}
             selectedChannel={nameOfChannel ? nameOfChannel : selectedChannel}

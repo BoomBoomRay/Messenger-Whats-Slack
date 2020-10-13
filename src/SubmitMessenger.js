@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import firebase from 'firebase/app';
 import SendIcon from '@material-ui/icons/Send';
 import { db, storage } from './firebase';
@@ -19,7 +19,29 @@ export default function SubmitMessenger({
   const docName = selectedChannel ? selectedChannel : 'mainChannel';
   const [progress, setProgress] = useState(0);
   const [toggleEmoticon, setToggleEmoticon] = useState(false);
+  useEffect(() => {
+    if (email) {
+      typerIndication();
+    }
+  }, [input]);
 
+  const typerIndication = () => {
+    if (input.length > 0) {
+      db.collection(userInfo.email).doc(email).update({
+        typing: true,
+      });
+      db.collection(email).doc(userInfo.email).update({
+        typing: true,
+      });
+    } else {
+      db.collection(userInfo.email).doc(email).update({
+        typing: false,
+      });
+      db.collection(email).doc(userInfo.email).update({
+        typing: false,
+      });
+    }
+  };
   const handleMessage = (e) => {
     e.preventDefault();
     setInput(e.target.value);
@@ -40,10 +62,12 @@ export default function SubmitMessenger({
               channelName: email,
               liked: [],
             }),
+            typing: false,
             recieverHasRead: false,
             createdBy: userInfo.email,
             dmRecipient: email,
             list: true,
+            email: userInfo.email,
           },
           { merge: true }
         );
@@ -60,6 +84,8 @@ export default function SubmitMessenger({
               channelName: userInfo.email,
               liked: [],
             }),
+            typing: false,
+            email: userInfo.email,
             recieverHasRead: false,
             createdBy: email,
             dmRecipient: userInfo.email,
@@ -115,7 +141,6 @@ export default function SubmitMessenger({
     }
   };
   const handleUpload = (img) => {
-    console.log(img);
     if (user) {
       storage
         .ref(`channels/${user}/${img.name}`)
@@ -240,6 +265,7 @@ export default function SubmitMessenger({
   const toggleEmoji = () => {
     setToggleEmoticon(!toggleEmoticon);
   };
+
   return (
     <div className='input-container'>
       <label onChange={addPhoto}>
@@ -255,7 +281,7 @@ export default function SubmitMessenger({
         </div>
       ) : null}
       <input
-        onFocus={msgIsRead}
+        onFocus={msgIsRead || handleMessage}
         className='input-message'
         value={input}
         onChange={handleMessage}

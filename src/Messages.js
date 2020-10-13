@@ -20,7 +20,7 @@ export const Messages = React.memo(
     const [loading, setLoading] = useState(false);
     const [{ email, user }, dispatch] = useStateValue();
     const [{ sentMessage }] = useStateValue();
-
+    const [userOppntIsTyping, setUsrOppntTyping] = useState(false);
     const scrollToBottom = () => {
       if (
         messagesEndRef.current === null ||
@@ -33,6 +33,7 @@ export const Messages = React.memo(
       }
     };
     useEffect(() => {
+      userOppntTyping();
       setLoading(sentMessage ? false : true);
       setTimeout(() => {
         setLoading(false);
@@ -40,6 +41,13 @@ export const Messages = React.memo(
       }, 500);
     }, [selectedChannel, sentMessage]);
 
+    const userOppntTyping = () => {
+      if (email) {
+        db.collection(userInfo.email)
+          .doc(email)
+          .onSnapshot((res) => setUsrOppntTyping(res.data()));
+      }
+    };
     const imgError = (e) => {
       e.target.src =
         'https://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-md.png';
@@ -218,7 +226,6 @@ export const Messages = React.memo(
         </>
       );
     };
-
     return (
       <div className='messengerContainerList'>
         {loading ? (
@@ -233,6 +240,10 @@ export const Messages = React.memo(
           <>{renderMessages()}</>
         )}
         <div ref={messagesEndRef} />
+        {userOppntIsTyping.email !== userInfo.email &&
+        userOppntIsTyping.typing === true ? (
+          <p>Typing...</p>
+        ) : null}
       </div>
     );
   },
