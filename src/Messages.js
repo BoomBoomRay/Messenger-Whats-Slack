@@ -45,7 +45,7 @@ export const Messages = React.memo(
       if (email) {
         db.collection(userInfo.email)
           .doc(email)
-          .onSnapshot((res) => setUsrOppntTyping(res.data()));
+          .onSnapshot(async (res) => await setUsrOppntTyping(res.data()));
       } else {
         db.collection('channels')
           .doc(user)
@@ -231,6 +231,43 @@ export const Messages = React.memo(
       );
     };
 
+    const renderTypingIndicator = () => {
+      return (
+        <div className='loader' id='loader-4'>
+          {user
+            ? userOppntIsTyping.email !== userInfo.email &&
+              userOppntIsTyping.typing === true
+              ? usersArray
+                  .filter((i) => i.email.includes(userOppntIsTyping.email))
+                  .map((i) => (
+                    <div className='typing__indicator'>
+                      <p>
+                        {i.user}
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </p>
+                    </div>
+                  ))
+              : null
+            : userOppntIsTyping.email !== userInfo.email &&
+              userOppntIsTyping.typing === true
+            ? usersArray
+                .filter((i) => i.email.includes(userOppntIsTyping?.email))
+                .map((i) => (
+                  <div className='typing__indicator'>
+                    <p>
+                      {i.user}
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </p>
+                  </div>
+                ))
+            : null}
+        </div>
+      );
+    };
     return (
       <div className='messengerContainerList'>
         {loading ? (
@@ -244,20 +281,8 @@ export const Messages = React.memo(
         ) : (
           <>{renderMessages()}</>
         )}
+        {renderTypingIndicator()}
         <div ref={messagesEndRef} />
-        {user
-          ? userOppntIsTyping.email !== userInfo.email &&
-            userOppntIsTyping.typing === true
-            ? usersArray
-                .filter((i) => i.email.includes(userOppntIsTyping.email))
-                .map((i) => <p>{i.user} is typing..</p>)
-            : null
-          : userOppntIsTyping.email !== userInfo.email &&
-            userOppntIsTyping.typing === true
-          ? usersArray
-              .filter((i) => i.email.includes(userOppntIsTyping?.email))
-              .map((i) => <p>{i.user} is typing...</p>)
-          : null}
       </div>
     );
   },
