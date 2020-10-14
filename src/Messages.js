@@ -42,14 +42,16 @@ export const Messages = React.memo(
     }, [selectedChannel, sentMessage]);
 
     const userOppntTyping = () => {
-      if (email) {
+      if (email && selectedChannel === email) {
         db.collection(userInfo.email)
           .doc(email)
           .onSnapshot(async (res) => await setUsrOppntTyping(res.data()));
-      } else {
+      } else if (user && selectedChannel === user) {
         db.collection('channels')
           .doc(user)
           .onSnapshot((res) => setUsrOppntTyping(res.data()));
+      } else {
+        return null;
       }
     };
     const imgError = (e) => {
@@ -235,8 +237,8 @@ export const Messages = React.memo(
       return (
         <div className='loader' id='loader-4'>
           {user
-            ? userOppntIsTyping.email !== userInfo.email &&
-              userOppntIsTyping.typing === true
+            ? userOppntIsTyping?.email !== userInfo.email &&
+              userOppntIsTyping?.typing === true
               ? usersArray
                   .filter((i) => i.email.includes(userOppntIsTyping.email))
                   .map((i) => (
@@ -247,11 +249,12 @@ export const Messages = React.memo(
                         <span></span>
                         <span></span>
                       </p>
+                      <div ref={messagesEndRef} />
                     </div>
                   ))
               : null
-            : userOppntIsTyping.email !== userInfo.email &&
-              userOppntIsTyping.typing === true
+            : userOppntIsTyping?.email !== userInfo.email &&
+              userOppntIsTyping?.typing === true
             ? usersArray
                 .filter((i) => i.email.includes(userOppntIsTyping?.email))
                 .map((i) => (
@@ -262,6 +265,7 @@ export const Messages = React.memo(
                       <span></span>
                       <span></span>
                     </p>
+                    <div ref={messagesEndRef} />
                   </div>
                 ))
             : null}

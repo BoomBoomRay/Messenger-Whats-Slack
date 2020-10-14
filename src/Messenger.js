@@ -121,7 +121,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
     db.collection('channels')
       .doc(selectedChnlString)
       .onSnapshot((res) => {
-        setMessage(res.data().messages ? res.data().messages : []);
+        setMessage(res.data()?.messages ? res.data().messages : []);
       });
     if (sentBY !== userInfo.email) {
       db.collection('channels').doc(specificChannel).update({
