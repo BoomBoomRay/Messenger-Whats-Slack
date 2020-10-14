@@ -16,6 +16,8 @@ Full capabilties:
 
 ## Walkthrough
 
+Please click to watch
+
 [![Watch the video](screenshot.png)](https://www.youtube.com/watch?v=PBZZxuRwut8&feature=youtu.be)
 
 ### Setup:
