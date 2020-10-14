@@ -12,6 +12,7 @@ Full capabilties:
 - user authentication
 - typing indication
 - online indication
+- dark mode
 
 ## Walkthrough
 
