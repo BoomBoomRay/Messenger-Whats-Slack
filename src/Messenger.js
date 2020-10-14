@@ -7,7 +7,13 @@ import { useStateValue } from './StateProvider';
 import Mprofile from './Mprofile';
 import './Messenger.css';
 
-export default function Messenger({ userInfo, logout, usersArray }) {
+export default function Messenger({
+  userInfo,
+  logout,
+  usersArray,
+  handleToggleDarkMode,
+  toggleDarkMode,
+}) {
   const [uploadImage, setuploadImage] = useState(null);
   const [chanels, setChannels] = useState(null);
   const [messages, setMessage] = useState([]);
@@ -157,6 +163,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
   return (
     <>
       <LeftNavigation
+        toggleDarkMode={toggleDarkMode}
         userInfo={userInfo}
         selectedChannel={selectedChannel}
         selectDM={selectDM}
@@ -168,7 +175,9 @@ export default function Messenger({ userInfo, logout, usersArray }) {
       />
 
       <div className='messengerContainer'>
-        <div className='title-container'>
+        <div
+          className={toggleDarkMode ? 'title-container-d' : 'title-container'}
+        >
           <h1>
             Room: #{' '}
             {changeEmailtoUserName[0]?.user
@@ -180,6 +189,7 @@ export default function Messenger({ userInfo, logout, usersArray }) {
         </div>
         <form>
           <Messages
+            toggleDarkMode={toggleDarkMode}
             userTyping={userTyping}
             lastUser={lastUser}
             userInfo={userInfo}
@@ -201,7 +211,13 @@ export default function Messenger({ userInfo, logout, usersArray }) {
         </form>
       </div>
 
-      <Mprofile logout={logout} userInfo={userInfo} usersArray={usersArray} />
+      <Mprofile
+        toggleDarkMode={toggleDarkMode}
+        handleToggleDarkMode={handleToggleDarkMode}
+        logout={logout}
+        userInfo={userInfo}
+        usersArray={usersArray}
+      />
     </>
   );
 }

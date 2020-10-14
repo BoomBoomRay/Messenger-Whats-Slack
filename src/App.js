@@ -16,6 +16,7 @@ function App() {
   const [welcomeScreenLoading, setwelcomeScreenLoading] = useState(true);
   const [loggingOut, setLoggingoutLoading] = useState(false);
   const [emailVerification, setemailVerification] = useState(false);
+  const [toggleDarkMode, setToggleDarkMode] = useState(false);
 
   useEffect(() => {
     var unsubscribe = auth.onAuthStateChanged((user) => {
@@ -127,9 +128,13 @@ function App() {
       </div>
     );
   };
+  const handleToggleDarkMode = () => {
+    console.log('fire');
+    setToggleDarkMode(!toggleDarkMode);
+  };
   return (
     <>
-      <div className='App'>
+      <div className={toggleDarkMode ? 'App_d' : 'App'}>
         {welcomeScreenLoading ? (
           <>{loadingIcon()}</>
         ) : loading ? (
@@ -158,6 +163,8 @@ function App() {
           <>
             <div className='app-messenger-container'>
               <Messenger
+                toggleDarkMode={toggleDarkMode}
+                handleToggleDarkMode={handleToggleDarkMode}
                 usersArray={usersArray}
                 userInfo={user}
                 logout={logout}

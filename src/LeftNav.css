@@ -5,15 +5,22 @@
 }
 .leftNavContainer {
   border: 2px solid #3f51b5;
-  /* max-width: 400px; */
   width: 400px;
-  /* min-width: 400px; */
-  /* max-height: 400px; */
   min-height: 650px;
   border-radius: 4px;
   margin-top: -3px;
   box-shadow: 1px 3px 10px -1px #aaaaaa;
   background-color: #3f51b5;
+}
+
+.leftNavContainer-d {
+  border: 2px solid white;
+  width: 400px;
+  min-height: 650px;
+  border-radius: 4px;
+  margin-top: -3px;
+  box-shadow: 1px 3px 10px -1px #aaaaaa;
+  background-color: black;
 }
 .leftNavContainer h1 {
   color: white;

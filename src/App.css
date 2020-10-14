@@ -2,6 +2,29 @@
   text-align: center;
 }
 
+.App_d {
+  background-color: black;
+  text-align: center;
+}
+
+.title-container-d {
+  min-width: 500px;
+  max-height: 400px;
+  border: 2px solid white;
+  background-color: black;
+  border-bottom-width: 0.01cm;
+  border-radius: 4px;
+  color: white;
+}
+.profile-container-d {
+  background-color: black;
+  border: 2px solid white;
+  width: 400px;
+  border-radius: 4px;
+  margin-top: -3px;
+  box-shadow: 1px 3px 10px -1px #aaaaaa;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -145,6 +168,7 @@ body {
   display: flex;
   width: 100%;
   justify-content: center;
+  align-items: center;
   margin-bottom: 10px;
 }
 .img-profile-div > h2 {
@@ -438,4 +462,11 @@ body {
   60% {
     opacity: 1;
   }
+}
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

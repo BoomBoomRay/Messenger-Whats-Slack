@@ -14,6 +14,7 @@ export const LeftNavigation = ({
   usersArray,
   selectDM,
   selectedChannel,
+  toggleDarkMode,
 }) => {
   const [open, setOpen] = useState(true);
   const [openDm, setOpenDm] = useState(true);
@@ -180,7 +181,7 @@ export const LeftNavigation = ({
   };
 
   return (
-    <div className='leftNavContainer'>
+    <div className={toggleDarkMode ? 'leftNavContainer-d' : 'leftNavContainer'}>
       <h1>Chat Messenger</h1>
       <div className='channelsList__container'>
         <ChannelModal

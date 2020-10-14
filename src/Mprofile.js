@@ -1,8 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { db, storage } from './firebase';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
-
-export default function Mprofile({ userInfo, messages, logout, usersArray }) {
+import Slider from './Slider';
+export default function Mprofile({
+  userInfo,
+  messages,
+  logout,
+  usersArray,
+  handleToggleDarkMode,
+  toggleDarkMode,
+}) {
   const [userHandle, setuserHandle] = useState('');
   // const [imgLoading, setImgLoading] = useState(false);
   // const [image, setimage] = useState(null);
@@ -172,7 +179,9 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
   };
 
   return (
-    <div className='profile-container'>
+    <div
+      className={toggleDarkMode ? 'profile-container-d' : 'profile-container'}
+    >
       <div className='title-container-profile'>
         <h1>Profile</h1>
       </div>
@@ -197,6 +206,7 @@ export default function Mprofile({ userInfo, messages, logout, usersArray }) {
         </div>
         <div className='logout__div'>
           <button onClick={logout}>Logout</button>
+          <Slider handleToggleDarkMode={handleToggleDarkMode} />
         </div>
       </div>
     </div>
