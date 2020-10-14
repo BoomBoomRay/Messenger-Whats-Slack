@@ -1,7 +1,6 @@
-
 ## Messenger/Slack clone
 
-An instant chat messenger built with Firebase Cloud. 
+An instant chat messenger built with Firebase Cloud.
 
 Full capabilties:
 
@@ -16,12 +15,10 @@ Full capabilties:
 
 ## Walkthrough
 
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://www.youtube.com/watch?v=PBZZxuRwut8&feature=youtu.be)
-
+[![Watch the video](screenshot.png)](https://www.youtube.com/watch?v=PBZZxuRwut8&feature=youtu.be)
 
 ### Setup:
 
 Create firebase project paste config in firebase.js
 
 npm i && npm run start or yarn && yarn start
-
