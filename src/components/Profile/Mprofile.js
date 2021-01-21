@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { db, storage } from './firebase';
+import { db, storage } from '../../utils/firebase';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
-import Slider from './Slider';
+import Slider from '../Slider/Slider';
 export default function Mprofile({
   userInfo,
   messages,

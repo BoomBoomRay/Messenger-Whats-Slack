@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './LeftNav.css';
-import { db } from './firebase';
-import ChannelModal from './ChannelModal';
-import DMModal from './DirectMsgModal';
+import { db } from '../../utils/firebase';
+import ChannelModal from '../Modals/ChannelModal';
+import DMModal from '../Modals/DirectMsgModal';
 import { CSSTransition } from 'react-transition-group';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
-import { useStateValue } from './StateProvider';
+import { useStateValue } from '../../utils/StateProvider';
 
 export const LeftNavigation = ({
   userInfo,

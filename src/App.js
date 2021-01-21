@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { auth, db } from './firebase';
-import Messenger from './Messenger';
+import { auth, db } from './utils/firebase';
+import Messenger from './components/Messenger/Messenger';
 import './App.css';
-import LoginComponent from './LoginComponent';
+import LoginComponent from './components/Login/LoginComponent';
 import firebase from 'firebase/app';
 
 function App() {

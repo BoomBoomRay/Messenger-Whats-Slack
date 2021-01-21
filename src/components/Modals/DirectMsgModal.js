@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import { db } from './firebase';
+import { db } from '../../utils/firebase';
 import firebase from 'firebase/app';
 import AddIcon from '@material-ui/icons/Add';
 import './DirectMsgModal.css';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import { useStateValue } from './StateProvider';
+import { useStateValue } from '../../utils/StateProvider';
 
 const customStyles = {
   content: {

@@ -1,10 +1,10 @@
-import Messages from './Messages';
+import Messages from '../Messages/Messages';
 import React, { useState, useEffect, useCallback } from 'react';
-import { db, storage } from './firebase';
-import SubmitMessenger from './SubmitMessenger';
-import LeftNavigation from './LeftNavigation';
-import { useStateValue } from './StateProvider';
-import Mprofile from './Mprofile';
+import { db, storage } from '../../utils/firebase';
+import SubmitMessenger from '../Submit/SubmitMessenger';
+import LeftNavigation from '../LeftNavigation/LeftNavigation';
+import { useStateValue } from '../../utils/StateProvider';
+import Mprofile from '../Profile/Mprofile';
 import './Messenger.css';
 
 export default function Messenger({

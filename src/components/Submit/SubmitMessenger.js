@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import firebase from 'firebase/app';
 import SendIcon from '@material-ui/icons/Send';
-import { db, storage } from './firebase';
-import { useStateValue } from './StateProvider';
+import { db, storage } from '../../utils/firebase';
+import { useStateValue } from '../../utils/StateProvider';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import Picker from 'emoji-picker-react';
-import OutsideAlert from './OutsideAlert';
+import OutsideAlert from '../OutsideAlert/OutsideAlert';
 
 export default function SubmitMessenger({
   userInfo,

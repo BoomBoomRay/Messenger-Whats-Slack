@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './App.css';
+import '../../App.css';
 import PropagateLoader from 'react-spinners/PropagateLoader';
 import { css } from '@emotion/core';
-import { useStateValue } from './StateProvider';
+import { useStateValue } from '../../utils/StateProvider';
 import moment from 'moment';
-import { db } from './firebase';
+import { db } from '../../utils/firebase';
 
 import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
 const override = css`
